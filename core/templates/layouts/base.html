@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- Primary Meta Tags -->
+  <title>
+    First Cotton Dashboard - {% block title %}{% endblock %}
+  </title>
+  <style>
+    body {
+      font: 90%/1.45em "Helvetica Neue", HelveticaNeue, Verdana, Arial, Helvetica, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #fff;
+    }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
+  <meta name="author" content="Themesberg">
+  <meta name="description"
+  content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+  <meta name="keywords"
+  content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, themesberg, themesberg dashboard, themesberg admin dashboard" />
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  
+  <meta property="og:url" content="https://demo.themesberg.com/volt-pro">
+  <meta property="og:title" content="Volt - Free Bootstrap 5 Dashboard">
+  <meta property="og:description"
+  content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+  <meta property="og:image"
+  content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+  
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://demo.themesberg.com/volt-pro">
+  <meta property="twitter:title" content="Volt - Free Bootstrap 5 Dashboard">
+  <meta property="twitter:description"
+  content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
+  <meta property="twitter:image"
+  content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/volt-pro-bootstrap-5-dashboard/volt-pro-preview.jpg">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="theme-color" content="#ffffff">
+  
+  <link rel="apple-touch-icon" sizes="120x120" href="/static/assets/img/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/assets/img/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/static/assets/img/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/static/assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+  <link rel="canonical" href="https://appseed.us/admin-dashboards/django-dashboard-volt">
+  <!-- Favicon -->
+  {% block stylesheets %}
+  {% endblock stylesheets %}
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+  <!-- <link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css"> -->
+  <link href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" rel="stylesheet"
+    type="text/css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"> -->
+  <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.css" rel="stylesheet" type="text/css" />
+  
+
+  <!-- Fontawesome -->
+  <link type="text/css" href="/static/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <!-- Sweet Alert -->
+  <link type="text/css" href="/static/assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+
+  <!-- Notyf -->
+  <link type="text/css" href="/static/assets/vendor/notyf/notyf.min.css" rel="stylesheet">
+
+  <!-- Volt CSS -->
+  <link type="text/css" href="/static/assets/css/volt.css" rel="stylesheet">
+  <style>
+
+  </style>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
+    <a class="navbar-brand me-lg-5" href="/">
+      <img class="navbar-brand-dark" src="/static/assets/img/brand/light.svg" alt="Volt logo" /> <img
+        class="navbar-brand-light" src="/static/assets/img/brand/dark.svg" alt="Volt logo" />
+    </a>
+    <div class="d-flex align-items-center">
+      <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  {% include 'includes/sidebar.html' %}
+
+  <main class="content">
+
+    {% include 'includes/navigation.html' %}
+
+    {% block content %}{% endblock content %}
+
+    {% include 'includes/settings-box.html' %}
+
+    {% include 'includes/footer.html' %}
+
+  </main>
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"> -->
+  {% include 'includes/scripts.html' %}
+  {% block javascripts %}
+  {% endblock javascripts %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
+  <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+  <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> -->
+  <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+  <!-- <script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script> -->
+  <script src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+  <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
+  <script type="text/javascript" language="javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+  <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script>
+  <script>
+    var selectStatesInputEl = d.querySelector('#states');
+    if (selectStatesInputEl) {
+      const choices = new Choices(selectStatesInputEl);
+    }
+    // $(document).ready(function () {
+    //   var table = $('#secondtable').DataTable({
+    //     dom: 'lr<"tb-filter-container">tip',
+    //     order: [[ 1, "asc" ]],
+    //     rowGroup: {
+    //         dataSrc: 1
+    //     },
+    //     initComplete: function (settings) {
+    //       var api = new $.fn.dataTable.Api(settings);
+    //       $('.tb-filter-container', api.table().container()).append(
+    //         $('#tb-filter').detach().show()
+    //       );
+
+    //       $('#tb-filter select').on('change', function () {
+    //         table
+    //     .columns( 12 )
+    //     .search(this.value ? "^" +this.value+ "$" : '',true,false)
+    //     .draw();
+    //       });
+    //     }
+    //   });
+    // });
+    $(document).ready(function () {
+    var collapsedGroups = {};
+
+    var table = $('#secondtable').DataTable({
+      dom: 'lr<"tb-filter-container">tip',
+      order: [[1, 'asc']],
+      rowGroup: {
+        // Uses the 'row group' plugin
+        dataSrc: 1,
+        
+        startRender: function (rows, group) {
+          var collapsed = !!collapsedGroups[group];
+
+          rows.nodes().each(function (r) {
+            r.style.display = collapsed ? 'none' : '';
+          });
+
+          // Add category name to the <tr>. NOTE: Hardcoded colspan
+          return $('<tr/>')
+            .append('<td colspan="13" style="text-align: center;"> Lot ID '+ ": " + group + ' Total Bales '+": " + rows.count() + '</td>')
+            .attr('data-name', group)
+            .toggleClass('collapsed', collapsed);
+        }
+      },
+      initComplete: function (settings) {
+          var api = new $.fn.dataTable.Api(settings);
+          $('.tb-filter-container', api.table().container()).append(
+            $('#tb-filter').detach().show()
+          );
+
+          $('#tb-filter select').on('change', function () {
+            table
+        .columns( 12 )
+        .search(this.value ? "^" +this.value+ "$" : '',true,false)
+        .draw();
+          });
+        },
+    });
+
+    $('#secondtable tbody').on('click', 'tr.group-start', function () {
+      var name = $(this).data('name');
+      collapsedGroups[name] = !collapsedGroups[name];
+      table.draw(false);
+    });
+
+  });
+// ----------------------------------------------------------------------------------------
+    $(document).ready(function () {
+      // Setup - add a text input to each footer cell
+      $('#datatable tfoot th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+      });
+
+      // DataTable
+      var table = $('#datatable').DataTable({
+        initComplete: function () {
+          // Apply the search
+          this.api().columns().every(function () {
+            var that = this;
+
+            $('input', this.footer()).on('keyup change clear', function () {
+              if (that.search() !== this.value) {
+                that
+                  .search(this.value)
+                  .draw();
+              }
+            });
+          });
+        }
+      });
+
+    });
+
+    // $(document).ready(function () {
+    //   var table = $('#newtable').DataTable({
+    //     dom: 'lr<"table-filter-container">tip',
+    //     order: [[1, 'asc']],
+    //   rowGroup: {
+    //     // Uses the 'row group' plugin
+    //     dataSrc: 1,
+    //   },
+    //     initComplete: function (settings) {
+    //       var api = new $.fn.dataTable.Api(settings);
+    //       $('.table-filter-container', api.table().container()).append(
+    //         $('#table-filter').detach().show()
+    //       );
+
+    //       $('#table-filter select').on('change', function () {
+    //         table.search(this.value).draw();
+    //       });
+    //     }
+    //   });
+
+    // });
+    $(document).ready(function () {
+    var collapsedGroups = {};
+
+    var table = $('#newtable').DataTable({
+      dom: 'lr<"table-filter-container">tip',
+      order: [[1, 'asc']],
+      rowGroup: {
+        // Uses the 'row group' plugin
+        dataSrc: 1,
+        
+        startRender: function (rows, group) {
+          var collapsed = !!collapsedGroups[group];
+
+          rows.nodes().each(function (r) {
+            r.style.display = collapsed ? 'none' : '';
+          });
+
+          // Add category name to the <tr>. NOTE: Hardcoded colspan
+          return $('<tr/>')
+            .append('<td colspan="12" style="text-align: center;"> Lot ID  '+ ": " + group + ' Total Bales '+": " + rows.count() + '</td>')
+            .attr('data-name', group)
+            .toggleClass('collapsed', collapsed);
+        }
+      },
+      initComplete: function (settings) {
+          var api = new $.fn.dataTable.Api(settings);
+          $('.table-filter-container', api.table().container()).append(
+            $('#table-filter').detach().show()
+          );
+
+          $('#table-filter select').on('change', function () {
+            table.search(this.value).draw();
+          });
+        }
+    });
+
+    $('#newtable tbody').on('click', 'tr.group-start', function () {
+      var name = $(this).data('name');
+      collapsedGroups[name] = !collapsedGroups[name];
+      table.draw(false);
+    });
+
+  });
+  </script>
+  <script>
+
+  </script>
+  <script>
+
+  </script>
+</body>
+
+</html>

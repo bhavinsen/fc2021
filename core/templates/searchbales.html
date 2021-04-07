@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="table-responsive py-4">
+        <h2>List all bales</h2>
+        <table class="table table-flush" id="datatable">
+            <thead class="thead-light">
+                <tr>
+                    <th>Bale ID</th>
+                    <th>Lot ID</th>
+                    <th>Station</th>
+                    <th>Crop Year </th>
+                    <th>Pick</th>
+                    <th>Staple Type</th>
+                    <th>Staple length</th>
+                    <th>Trash</th>
+                    <th>Bundle Strength</th>
+                    <th>Micronaire</th>
+                    <th>Moisture</th>
+                    <th>Asking Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in bales %}
+                <tr>
+                    <td>{{i.Bale_ID}}</td>
+                    <td>{{i.Lot_ID}}</td>
+                    <td>{{i.Station}}</td>
+                    <td>{{i.Crop_Year}}</td>
+                    <td>{{i.Pick}}</td>
+                    <td>{{i.Staple_Type}}</td>
+                    <td>{{i.Staple_length}}</td>
+                    <td>{{i.Trash}}</td>
+                    <td>{{i.Bundle_Strength}}</td>
+                    <td>{{i.Micronaire}}</td>
+                    <td>{{i.Moisture}}</td>
+                    <td>{{i.Asking_Price}}</td>
+                </tr>
+                {% empty %}
+                <td style="text-align:center">Sorry, no athletes in this list.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Bale ID</th>
+                    <th>Lot ID</th>
+                    <th>Station</th>
+                    <th>Crop Year </th>
+                    <th>Pick</th>
+                    <th>Staple Type</th>
+                    <th>Staple length</th>
+                    <th>Trash</th>
+                    <th>Bundle Strength</th>
+                    <th>Micronaire</th>
+                    <th>Moisture</th>
+                    <th>Asking Price</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
