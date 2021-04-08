@@ -52,6 +52,7 @@ ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"   # Route defined in app/urls.py
 LOGOUT_REDIRECT_URL = "home"  # Route defined in app/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "core/templates")  # ROOT dir for templates
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -125,7 +126,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'core/static'),
 )
-
 #############################################################
 #############################################################
 
