@@ -1,4 +1,4 @@
-
+{% load static %}
 <div class="theme-settings card pt-2 collapse" id="theme-settings">
     <div class="card-body pt-4">
         <button type="button" class="btn-close theme-settings-close" aria-label="Close" data-bs-toggle="collapse"
@@ -16,16 +16,16 @@
         <div class="d-flex justify-content-center">
             <a class="me-3" href="https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard"
                 target="_blank">
-                <img src="/static/assets/img/technologies/bootstrap-5-logo.svg" class="image image-xs">
+                <img src="{% static 'assets/img/technologies/bootstrap-5-logo.svg' %}" class="image image-xs">
             </a>
             <a href="https://demo.themesberg.com/volt-react-dashboard/#/" target="_blank">
-                <img src="/static/assets/img/technologies/react-logo.svg" class="image image-xs">
+                <img src="{% static 'assets/img/technologies/react-logo.svg' %}" class="image image-xs">
             </a>
             <a href="https://appseed.us/admin-dashboards/flask-dashboard-volt" target="_blank">
-                <img src="/static/assets/img/technologies/flask-logo.svg" class="image image-xs">
+                <img src="{% static 'assets/img/technologies/flask-logo.svg' %}" class="image image-xs">
             </a>
             <a href="https://appseed.us/admin-dashboards/django-dashboard-volt" target="_blank">
-                <img src="/static/assets/img/technologies/django-logo.svg" class="image image-xs">
+                <img src="{% static 'assets/img/technologies/django-logo.svg' %}" class="image image-xs">
             </a>                        
         </div>
     </div>

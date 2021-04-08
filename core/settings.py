@@ -17,7 +17,7 @@ CORE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'S3cr3t_K#Key'
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG', default=False, cast=bool)
-DEBUG = False
+DEBUG = True
 # load production server from .env
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', config('SERVER', default='127.0.0.1'),'*']
 
@@ -133,5 +133,9 @@ STATICFILES_DIRS = (
 #     import dj_database_url
 #     DATABASES = {'default': dj_database_url.config()}
 
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SAMESITE = 'None'
 
 django_heroku.settings(locals())
