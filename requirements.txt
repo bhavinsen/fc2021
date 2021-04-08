@@ -5,7 +5,9 @@ dj-static==0.0.6
 Django==2.2.10
 django-heroku==0.3.1
 django-postgres-fuzzycount==0.1.7
+django-samesite-none==0.0.3
 django-toolbelt==0.0.1
+django-waitress==0.1.0
 gunicorn==20.1.0
 psycopg2==2.8.6
 pycodestyle==2.7.0
@@ -16,5 +18,4 @@ sqlparse==0.4.1
 static3==0.7.0
 toml==0.10.2
 Unipath==1.1
-waitress==2.0.0
 whitenoise==5.2.0
