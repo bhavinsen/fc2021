@@ -5,7 +5,6 @@ dj-static==0.0.6
 Django==2.2.10
 django-heroku==0.3.1
 django-postgres-fuzzycount==0.1.7
-django-samesite-none==0.0.3
 django-toolbelt==0.0.1
 gunicorn==20.1.0
 psycopg2==2.8.6

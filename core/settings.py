@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "django_samesite_none.middleware.SameSiteNoneMiddleware",
+
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -133,10 +133,5 @@ STATICFILES_DIRS = (
 #     import dj_database_url
 #     DATABASES = {'default': dj_database_url.config()}
 
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
 
 django_heroku.settings(locals())
