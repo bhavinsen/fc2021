@@ -12,37 +12,7 @@
 {% block content %}
 <div class="container-fluid mt-5">
     <h2><b>View All Bales Data </b></h2>
-    <!-- <div class="table-responsive py-4">
-        <h3>List all Test bales</h3>
-        <table class="table table-flush" id="datatable">
-            <thead class="thead-light">
-                <tr>
-                    <th>Bale ID</th>
-                    <th>Staple length</th>
-                    <th>Trash</th>
-                    <th>Bundle Strength</th>
-                    <th>Micronaire</th>
-                    <th>Rd</th>
-                    <th>+b</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for i in data %}
-                <tr>
-                    <td>{{i.Bale_ID}}</td>
-                    <td>{{i.Staple_length}}</td>
-                    <td>{{i.Trash}}</td>
-                    <td>{{i.Bundle_Strength}}</td>
-                    <td>{{i.Micronaire}}</td>
-                    <td>{{i.Rd}}</td>
-                    <td>{{i.b}}</td>
-                </tr>
-                {% empty %}
-                <li>Sorry, no athletes in this list.</li>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div> -->
+    
 </div>
 
 {% if request.user.is_superuser %}
@@ -102,24 +72,7 @@
                 </tr>
                 {% endfor %}
             </tbody>
-            <!-- <tfoot>
-                <tr> -->
-                    <!-- <th>Bale ID</th>
-                    <th>Lot ID</th>
-                    <th>Station</th>
-                    <th>Crop Year </th>
-                    <th>Pick</th>
-                    <th>Staple Type</th>
-                    <th>Staple length</th>
-                    <th>Trash</th>
-                    <th>Bundle Strength</th>
-                    <th>Micronaire</th>
-                    <th>Moisture</th>
-                    <th>Asking Price</th> -->
-                    <!-- <th>User</th>
-
-                </tr>
-            </tfoot> -->
+            
         </table>
     </div>
 </div>
@@ -187,58 +140,6 @@
 
 {% endblock content %}
 
-<!-- Specific Page JS goes HERE  -->
+
 {% block javascripts %}
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-
-<script>
-    // let BalesData;
-    // $(document).ready(function () {
-    //     $("select").change(function () {
-    //         var selectedCountry = $(this).val();
-    //         const arr = []
-    //         arr.push(selectedCountry)
-    //         $("button").click(function () {
-    //             $.ajax({
-    //                 url: "{% url 'viewmybales' %}",
-    //                 type: 'POST',
-    //                 data: JSON.stringify({ 'arr': arr[0] }),
-    //                 dataType: 'json',
-    //                 processData: false,
-    //                 contentType: 'application/json',
-
-    //             }).done(function (response) {
-    //                 BalesData = JSON.parse(response)
-    //                 // var res = JSON.stringify(response)
-    //                 // res = JSON.parse(response)
-    //                 // console.log("🚀 ~ file: viewmybales.html ~ line 157 ~ res", res[0]['fields'])
-    //                 console.log(BalesData)
-    //                 BalesData.forEach((item) => {
-
-    //                     $("#BalesData").append(
-    //                         `<tr>
-    //                             <td>${item.fields.Bale_ID}</td>
-    //                             <td>${item.fields.Lot_ID}</td>
-    //                             <td>${item.fields.Station}</td>
-    //                             <td>${item.fields.Crop_Year}</td>
-    //                             <td>${item.fields.Pick}</td>
-    //                             <td>${item.fields.Staple_Type}</td>
-    //                             <td>${item.fields.Staple_length}</td>
-    //                             <td>${item.fields.Trash}</td>
-    //                             <td>${item.fields.Bundle_Strength}</td>
-    //                             <td>${item.fields.Micronaire}</td>
-    //                             <td>${item.fields.Moisture}</td>
-    //                             <td>${item.fields.Asking_Price}</td>
-    //                         </tr>
-    //                         `)
-    //                 })
-
-    //             }).fail(function (error) {
-
-    //                 console.log("🚀 ~ file: viewmybales.html ~ line 167 ~ $ ~ error", error)
-    //             });
-    //         });
-    //     });
-</script>
-
 {% endblock javascripts %}
