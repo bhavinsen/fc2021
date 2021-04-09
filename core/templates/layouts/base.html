@@ -56,16 +56,15 @@
   {% block stylesheets %}
   {% endblock stylesheets %}
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
-  <!-- <link href="https://cdn.datatables.net/rowgroup/1.1.2/css/rowGroup.dataTables.min.css" rel="stylesheet" type="text/css"> -->
+
   <link href="https://cdn.datatables.net/rowgroup/1.0.2/css/rowGroup.dataTables.min.css" rel="stylesheet"
     type="text/css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"> -->
-  <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-  <!-- <link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.css" rel="stylesheet" type="text/css" /> -->
 
-  <!-- /assets/vendor/@fortawesome/fontawesome-free/css/all.min.css -->
-  <!-- Fontawesome -->
+  <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+
+
+
   <link type="text/css" href="{% static 'assets/vendor/@fortawesome/fontawesome-free/css/all.min.css' %}"
     rel="stylesheet">
   <!-- Sweet Alert -->
@@ -110,60 +109,28 @@
     {% include 'includes/footer.html' %}
 
   </main>
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css"> -->
   {% include 'includes/scripts.html' %}
   {% block javascripts %}
   {% endblock javascripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
-  <!-- <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script> -->
+
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"
     integrity="sha256-7LkWEzqTdpEfELxcZZlS6wAx5Ff13zZ83lYO2/ujj7g=" crossorigin="anonymous"></script>
 
 
-  <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> -->
+
   <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
-  <!-- <script src="https://cdn.datatables.net/rowgroup/1.1.2/js/dataTables.rowGroup.min.js"></script> -->
+
   <script src="https://cdn.datatables.net/rowgroup/1.0.2/js/dataTables.rowGroup.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
-  <!-- <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.js"></script> -->
 
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.js"></script>
-  <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script> -->
-  <!-- <script type="text/javascript" language="javascript"
-    src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> -->
-
-  <!-- <script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.colVis.min.js"></script> -->
   <script>
     var selectStatesInputEl = d.querySelector('#states');
     if (selectStatesInputEl) {
       const choices = new Choices(selectStatesInputEl);
     }
-    // $(document).ready(function () {
-    //   var table = $('#secondtable').DataTable({
-    //     dom: 'lr<"tb-filter-container">tip',
-    //     order: [[ 1, "asc" ]],
-    //     rowGroup: {
-    //         dataSrc: 1
-    //     },
-    //     initComplete: function (settings) {
-    //       var api = new $.fn.dataTable.Api(settings);
-    //       $('.tb-filter-container', api.table().container()).append(
-    //         $('#tb-filter').detach().show()
-    //       );
-
-    //       $('#tb-filter select').on('change', function () {
-    //         table
-    //     .columns( 12 )
-    //     .search(this.value ? "^" +this.value+ "$" : '',true,false)
-    //     .draw();
-    //       });
-    //     }
-    //   });
-    // });
+   
     $(document).ready(function () {
       var collapsedGroups = {};
 
@@ -238,27 +205,6 @@
 
     });
 
-    // $(document).ready(function () {
-    //   var table = $('#newtable').DataTable({
-    //     dom: 'lr<"table-filter-container">tip',
-    //     order: [[1, 'asc']],
-    //   rowGroup: {
-    //     // Uses the 'row group' plugin
-    //     dataSrc: 1,
-    //   },
-    //     initComplete: function (settings) {
-    //       var api = new $.fn.dataTable.Api(settings);
-    //       $('.table-filter-container', api.table().container()).append(
-    //         $('#table-filter').detach().show()
-    //       );
-
-    //       $('#table-filter select').on('change', function () {
-    //         table.search(this.value).draw();
-    //       });
-    //     }
-    //   });
-
-    // });
     $(document).ready(function () {
       var collapsedGroups = {};
 
@@ -303,12 +249,7 @@
 
     });
   </script>
-  <script>
-
-  </script>
-  <script>
-
-  </script>
+ 
 </body>
 
 </html>

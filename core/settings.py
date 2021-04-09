@@ -120,13 +120,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 # STATIC_ROOT = os.path.join(CORE_DIR, 'core/static')
-STATIC_ROOT = os.path.join(CORE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(CORE_DIR, 'core/static'),
-)
+STATIC_ROOT = os.path.join(CORE_DIR, 'core/staticfiles')
+STATICFILES_DIRS = (os.path.join(CORE_DIR, 'core/static'),)
 
 
 #############################################################
@@ -136,9 +132,9 @@ STATICFILES_DIRS = (
 #     import dj_database_url
 #     DATABASES = {'default': dj_database_url.config()}
 
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SAMESITE = 'None'
-# SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 django_heroku.settings(locals())
