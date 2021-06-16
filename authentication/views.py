@@ -1,11 +1,5 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from django.shortcuts import render
-
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -58,3 +52,19 @@ def register_user(request):
         form = SignUpForm()
 
     return render(request, "accounts/register.html", {"form": form, "msg" : msg, "success" : success })
+
+
+
+@login_required(login_url="/login/")
+def profile(request):
+    user = request.user
+    print("🚀 ~ file: views.py ~ line 288 ~ user", user)
+    return render(request, 'profile.html')
+
+
+# def password_reset_done(request):
+#     user = request.user
+#     print("🚀 ~ file: views.py ~ line 288 ~ user", user)
+#     return render(request, 'accounts/password_reset_done.html')
+
+

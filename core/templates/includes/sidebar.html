@@ -59,6 +59,43 @@
             <span class="sidebar-text">View My Bales</span>
           </a>
         </li>
+        <!-- <li class="nav-item ">
+          <a href="{% url 'auction_my_bales' %}" class="nav-link">
+            <span class="sidebar-icon"><span class="fas fa-shopping-cart"></span></span>
+            <span class="sidebar-text">Bidding</span>
+          </a>
+        </li> -->
+        <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
+          <span
+            class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+            data-bs-toggle="collapse" data-bs-target="#submenu-app">
+            <span>
+              <span class="sidebar-icon"><span class="fas fa-shopping-cart"></span></span>
+              <span class="sidebar-text">Bidding</span>
+            </span>
+            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
+          </span>
+          <div class="multi-level collapse "
+            role="list" id="submenu-app" aria-expanded="false">
+            <ul class="flex-column nav">
+              <li class="nav-item ">
+                <a class="nav-link" href="{% url 'auction_my_bales' %}">
+                  <span class="sidebar-text">Auction My Bales</span>
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="{% url 'seeks_bids_to_supply' %}">
+                  <span class="sidebar-text">Seeks Bids To Supply</span>
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="{% url 'live_auction' %}">
+                  <span class="sidebar-text">Live Auction</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li class="nav-item">
           <a href="{% url 'settings' %}" class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-cog"></span></span>

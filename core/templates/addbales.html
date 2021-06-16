@@ -13,27 +13,30 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endfor %}
+    <div class="col-12 col-xl-12">
+        <div class="card card-body shadow-sm mb-4">
     <h2>Add bales through a CSV file</h2>
-    <label class="my-1 me-2 mt-5" for="country">Name Of Ginner</label>
-    <select class="form-select" id="country" aria-label="Default select example">
-        {% if request.user.is_superuser %}
-        {% for i in users %}
-        <option value="1">{{i.username}}</option>
-        {% endfor %}
-
-        {% else %}
-        <option value="4">{{request.user}}</option>
-        {% endif %}
-    </select>
     <div class="mb-3 mt-5">
-    <form class="form-inline" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+        <form class="form-inline" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label class="" for="country">Name Of Ginner</label>
+            <select class="form-select mb-5" id="country" name="country" aria-label="Default select example">
+                {% if request.user.is_superuser %}
+                {% for i in users %}
+                <option value="{{i.id}}">{{i.username}}</option>
+                {% endfor %}
+        
+                {% else %}
+                <option value="{{request.user.id}}">{{request.user}}</option>
+                {% endif %}
+            </select>
             <label for="formFile" class="form-label">CSV Upload</label>
-            <input class="form-control" type="file" id="formFile" name="formFile" accept=".csv" required>
-            <button class="btn btn-secondary" type="submit" style="margin-left: 547px;margin-top:-71px;">Upload</button>
+            <input class="form-control" type="file" id="formFile" name="formFile" accept=".csv" required><br>
+            <button class="btn btn-secondary" type="submit">Upload</button>
     </form>
     </div>
-    
+        </div>
+    </div>
 </div>
 
 

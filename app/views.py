@@ -1,9 +1,12 @@
 
+from re import M
+import re
 from django.http.response import JsonResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, context
 from django.contrib import messages
 import io
+import codecs
 import csv,json
 from django.template import loader
 from django.template.loader import get_template
@@ -20,8 +23,11 @@ from django.db.models import Sum
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers import serialize
-
-
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.core.serializers import serialize
+from django.db.models import Avg, Max, Min, Sum
 # @login_required(login_url="/login/")
 # def index(request):
 #     context = {}
@@ -78,6 +84,7 @@ def settings(request):
 
 
 @login_required(login_url="/login/")
+@csrf_exempt
 def viewmybales(request):
     User = get_user_model()
     users = User.objects.all()
@@ -102,6 +109,22 @@ def viewmybales(request):
     #     return JsonResponse(newdata,safe=False)
     return render(request,'viewmybales.html',{'data':data,'users':users,'bales':bales,'rbales':rbales})
 
+@login_required(login_url="/login/")
+@csrf_exempt
+def available_for_sale(request):
+    
+    data= json.loads(request.body)
+    print("🚀 ~ file: views.py ~ line 130 ~ data", data['id'][-3:])
+    sale_id = data['id'][-3:]
+    sale_value =  data['value']
+    bales = Bale.objects.get(id=sale_id)
+    if sale_value == "True":
+        bales.Available_For_Sale = False
+    else:
+        bales.Available_For_Sale = True
+    bales.save()
+    print("🚀 ~ file: views.py ~ line 134 ~ bales", bales.Available_For_Sale)
+    return JsonResponse({"msg": "success"},safe=False)
 
 @login_required(login_url="/login/")
 def addbales(request):
@@ -110,38 +133,95 @@ def addbales(request):
     users = User.objects.all()
     if request.method == "POST":
         csv_file = request.FILES['formFile']
+        task = request.POST.get('country')
+        print("🚀 ~ file: views.py ~ line 136 ~ task", task)
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'THIS IS NOT A CSV FILE')
-        common_header = ['Bale ID,Lot ID,Station,Crop Year,Pick,Staple Type,Staple length,Trash,Bundle Strength,Micronaire,Moisture,Asking Price\r\n']
-        for index,row in enumerate(csv_file):
-            data = row.decode('utf-8')
-            if data:
-                line = data.split('","')
-                print("🚀 ~ file: views.py ~ line 125 ~ line", line)
-            if index == 0:
-                if (line != common_header):
-                    messages.error(request, 'THIS IS NOT SAME HEADER CSV FILE')
-                else:
-                    messages.success(request, 'THIS IS SAME HEADER CSV FILE')
+        common_header =  ['\ufeffginnerid', 'baleid', 'lotid', 'variety', 'station ', 'crop year', 'staple ', 'micronaire', 'Rd', ' Gtex', 'spot_price', 'weightinkg', 'for_sale', 'organic', 'BCI']
+        # common_header = ['ginnerid,baleid,lotid,variety,station,crop year,staple,micronaire,Rd,Gtex,spot_price,weightinkg,for_sale,organic,BCI\r\n']
+        # for index,row in enumerate(csv_file):
+        #     data = row.decode('utf-8')
+        #     if data:
+        #         line = data.split('","')
+        #         # print("🚀 ~ file: views.py ~ line 125 ~ line", line)
+        #     if index == 0:
+        #         if (line != common_header):
+        #             messages.error(request, 'THIS IS NOT SAME HEADER CSV FILE')
+        #         else:
+        #             messages.success(request, 'THIS IS SAME HEADER CSV FILE')
         # data_set = csv_file.read().decode('UTF-8')
         # io_string = io.StringIO(data_set)
         # next(io_string)
-        # for column in csv.reader(io_string, delimiter=',', quotechar="|"):
-        #     _, created = Bale.objects.update_or_create(
-        #         Bale_ID=column[0],
-        #         Lot_ID=column[1],
-        #         Station=column[2],
-        #         Crop_Year=column[3],
-        #         Pick=column[4],
-        #         Staple_Type=column[5],
-        #         Staple_length=column[6],
-        #         Trash=column[7],
-        #         Bundle_Strength=column[8],
-        #         Micronaire=column[9],
-        #         Moisture=column[10],
-        #         Asking_Price=column[11]
-                # user = user.objects.get(id=request.user.id)
-        #     )
+        # for column in csv.reader(data_set, delimiter=',', quotechar="|"):
+                    # print("🚀 ~ file: views.py ~ line 152 ~ column",  row[0],row[1])
+            # _, created = Bale.objects.update_or_create(
+            #     ginnerid = column[0],
+            #     Bale_ID=column[1],
+            #     Lot_ID=column[2],
+            #     variety = column[3],
+            #     Station=column[4],
+            #     Crop_Year=column[5],
+            #     Staple_length=column[6],
+            #     Micronaire=column[7],
+            #     Rd= column[8],
+            #     GTex= column[9],
+            #     Spot_Price=column[10],
+            #     weightinkg= column[11],
+            #     Available_For_Sale= column[12],
+            #     Organic=column[13],
+            #     BCI=column[14],
+            #     user = User.objects.get(id=request.user.id)
+            # )
+        reader = csv.reader(codecs.iterdecode(csv_file, 'utf-8'))
+        for j,column in enumerate(reader):
+            if j == 0:
+                print("🚀 ~ file: views.py ~ line 441 ~ i", column)
+                # print("🚀 ~ file: views.py ~ line 430 ~ common_header != i", common_header != i)
+                if common_header != column:
+                    messages.error(request, 'THIS IS NOT SAME HEADER CSV FILE')
+                    break
+                else:
+                    messages.success(request, 'THIS IS SAME HEADER CSV FILE')
+            if j != 0:
+                
+                # print("🚀 ~ file: views.py ~ line 186 ~ column", column[0],column[1])
+
+                print("🚀 ~ file: views.py ~ line 441 ~ i")
+                For_Sale = column[12]
+                org = column[13]
+                bci = column[14]
+                if For_Sale == "TRUE":
+                    sale = True
+                else:
+                    sale = False
+                if org == "TRUE":
+                    org_up = True
+                else:
+                    org_up = False
+                if bci == "TRUE":
+                    bci_up = True
+                else:
+                    bci_up = False
+                created = Bale(
+                    ginnerid = column[0],
+                    Bale_ID=column[1],
+                    Lot_ID=column[2],
+                    variety = column[3],
+                    Station=column[4],
+                    Crop_Year=column[5],
+                    Staple_length=column[6],
+                    Micronaire=column[7],
+                    Rd= column[8],
+                    GTex= column[9],
+                    Spot_Price=column[10],
+                    weightinkg= column[11],
+                    Available_For_Sale= sale,
+                    Organic=org_up,
+                    BCI=bci_up,
+                    user = User.objects.get(id=request.user.id)
+                )
+                created.save()
+              
         return render(request,'addbales.html',{"users":users})
     return render(request,'addbales.html',{"users":users})
 
@@ -168,7 +248,7 @@ def addtestdata(request):
         #         b=column[6],
         #     )
         csv_file = request.FILES['formFile']
-        common_header = ['Bale ID,Staple length,Trash,Bundle Strength,Micronaire,Rd,+b\r\n']
+        common_header = ['Bale ID,Staple length,Trash,Bundle Strength,Micronaire,Rd,+b,test by fc,test_report\r\n']
         if not csv_file.name.endswith('.csv'):
             messages.error(request, 'THIS IS NOT A CSV FILE')
         for index,row in enumerate(csv_file):
@@ -185,8 +265,58 @@ def addtestdata(request):
     return render(request,'addtestdata.html')
 
 @login_required(login_url="/login/")
+@csrf_exempt
 def searchbales(request):
-    bales = Bale.objects.all()
+    # request.body
+    if request.method == 'POST' and request.is_ajax:
+        print("🚀 ~ file: views.py ~ line 191 ~ request.body", json.loads(request.body)['Station'])
+    
+        data= json.loads(request.body)
+        # bales = Bale.objects.all()
+        bales = Bale.objects.filter(Q(Station__exact=json.loads(request.body)['Station']))
+        # print(bales)
+        new_data = []
+        for i in bales:
+            new_data.append({
+                'Station':i.Station,
+                'Bale_ID':i.Bale_ID,
+                'Available_For_Sale':i.Available_For_Sale,
+                'BCI':i.BCI,
+                'Organic':i.Organic,
+                'Staple_length':"",
+                'Micronaire':"",
+            })
+            # new_data['Station']=i.Station
+            # new_data['Bale_ID']=i.Bale_ID
+            # new_data['Available_For_Sale']=i.Available_For_Sale
+            # new_data['BCI']=i.BCI
+            # print(i.BCI)
+        # print("🚀 ~ file: views.py ~ line 199 ~ bales", bales)
+        # data = serialize("json", bales)
+        max_staple = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Max('Staple_length'))['Staple_length__max']
+        print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
+        
+        min_staple = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Min('Staple_length'))['Staple_length__min']
+        print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
+        
+        max_micronaire = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Max('Micronaire'))['Micronaire__max']
+        print("🚀 ~ file: views.py ~ line 210 ~ max_micronaire", max_micronaire)
+        
+        min_micronaire = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Min('Micronaire'))['Micronaire__min']
+        print("🚀 ~ file: views.py ~ line 213 ~ min_micronaire", min_micronaire)
+        # data = [
+        #     {'station':new_data,'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire}
+        # ] 
+        new_data[0]['Staple_length'] = max_staple+ "-" + min_staple
+        new_data[0]['Micronaire'] = max_micronaire +"-"+min_micronaire
+        # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
+        print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
+        # return render(request,"searchbales.html",new_data)
+        return HttpResponse(
+            json.dumps(new_data),
+            content_type="application/json"
+        )
+    # bales = Bale.objects.all()
     # if request.method == 'GET':
     #     query= request.GET.get('q')
     #     submitbutton= request.GET.get('submit')
@@ -196,7 +326,7 @@ def searchbales(request):
     #         context={'results': results,
     #                  'submitbutton': submitbutton}
     #         return render(request, 'searchbales.html', context)
-    return render(request,"searchbales.html",{"bales":bales})
+    return render(request,"searchbales.html")
 
 
 
@@ -208,3 +338,24 @@ def handler500(request):
 
 def handler403(request,exception):
     return render(request, '403.html', status=403)
+
+@login_required(login_url="/login/")
+@csrf_exempt
+def auction_my_bales(request):
+    User = get_user_model()
+    users = User.objects.all()
+    query = request.user
+    rbales = Bale.objects.filter(Q(user__exact=query))
+    bales = Bale.objects.all()
+    return render(request,'auction_my_bales.html',{'users':users,'bales':bales,'rbales':rbales})
+
+@login_required(login_url="/login/")
+@csrf_exempt
+def seeks_bids_to_supply(request):
+    return render(request,'seeks_bids_to_supply.html')
+
+
+@login_required(login_url="/login/")
+@csrf_exempt
+def live_auction(request):
+    return render(request,'live_auction.html')

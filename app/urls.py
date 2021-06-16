@@ -16,5 +16,9 @@ urlpatterns = [
     path('viewmybales',views.viewmybales,name='viewmybales'),
     path('addbales',views.addbales,name='addbales'),
     path('searchbales',views.searchbales,name='searchbales'),
+    path('auction_my_bales',views.auction_my_bales,name='auction_my_bales'),
+    path('available_for_sale',views.available_for_sale,name='available_for_sale'),
+    path('seeks_bids_to_supply',views.seeks_bids_to_supply,name='seeks_bids_to_supply'),
+    path('live_auction',views.live_auction,name='live_auction'),
     
 ]

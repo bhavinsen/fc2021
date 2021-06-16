@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="card text-center p-0 mb-4">
+    <div class="profile-cover rounded-top" data-background="{% static 'assets/img/profile-cover.jpg'%}"></div>
+    <div class="card-body pb-5">
+        <img src="{% static 'assets/img/team/profile-picture-3.jpg'%}" class="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4" alt="Neil Portrait">
+        <h4 class="h3">Neil Sims</h4>
+        <h5 class="fw-normal">Senior Software Engineer</h5>
+        <p class="text-gray mb-4">New York, USA</p>
+        <!-- <a class="btn btn-sm btn-dark me-2" href="#"><span class="fas fa-user-plus me-1"></span> Connect</a>
+        <a class="btn btn-sm btn-secondary" href="#">Send Message</a> -->
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

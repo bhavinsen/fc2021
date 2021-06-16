@@ -5,7 +5,11 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
 <style>
-
+.content {
+    overflow: visible;
+    padding: 0 !important;
+    transition: all 0.3s;
+}
 </style>
 {% endblock stylesheets %}
 
@@ -29,42 +33,30 @@
 </div>
 <div class="container-fluid mt-5" style="width:100%">
     <div class="table-responsive py-4">
-        <h3>Groups by Lot_ID</h3>
-        <table class="table table-flush" id="secondtable">
+        <h3>Groups by <mark>Lot ID</mark></h3>
+        <table class="table table-centered table-nowrap mb-0 rounded" id="secondtable">
             <thead class="thead-light">
                 <tr>
-                    <th>Bale ID</th>
-                    <th>Lot ID</th>
-                    <th>Station</th>
-                    <th>Crop Year </th>
-                    <th>Pick</th>
-                    <th>Staple Type</th>
-                    <th>Staple length</th>
-                    <th>Trash</th>
-                    <th>Bundle Strength</th>
-                    <th>Micronaire</th>
-                    <th>Moisture</th>
-                    <th>Asking Price</th>
-                    <th>User</th>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Lot ID</th>
+                    <th class="border-0">Bale ID</th>
+                    <th class="border-0">Available For Sale</th>
+                    <th class="border-0">Organic</th>
+                    <th class="border-0">BCI</th>
+                    <th class="border-0">User</th>
 
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="mybalestbody">
                 {% for i in bales %}
                 <tr>
-                    <td>{{i.Bale_ID}}</td>
-                    <td>{{i.Lot_ID}}</td>
-                    <td>{{i.Station}}</td>
-                    <td>{{i.Crop_Year}}</td>
-                    <td>{{i.Pick}}</td>
-                    <td>{{i.Staple_Type}}</td>
-                    <td>{{i.Staple_length}}</td>
-                    <td>{{i.Trash}}</td>
-                    <td>{{i.Bundle_Strength}}</td>
-                    <td>{{i.Micronaire}}</td>
-                    <td>{{i.Moisture}}</td>
-                    <td>{{i.Asking_Price}}</td>
-                    <td>{{i.user}}</td>
+                    <td class="border-0">{{i.Station}}</td>
+                    <td class="border-0">{{i.Lot_ID}}</td>
+                    <td class="border-0">{{i.Bale_ID}}</td>
+                    <td class="border-0"><input type="checkbox" id="sale_{{i.id}}" class="a" value={{i.Available_For_Sale}} ></td>
+                    <td class="border-0">{{i.Organic}}</td>
+                    <td class="border-0">{{i.BCI}}</td>
+                    <td class="border-0">{{i.user}}</td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -76,6 +68,7 @@
         </table>
     </div>
 </div>
+<!-- <button id="newbtn">Submit</button> -->
 {% else %}
 <div class="container-fluid mt-5">
     
@@ -94,36 +87,24 @@
         <table class="table table-flush" id="newtable" class="display">
             <thead class="thead-light">
                 <tr>
-                    <th>Bale ID</th>
-                    <th>Lot ID</th>
                     <th>Station</th>
-                    <th>Crop Year </th>
-                    <th>Pick</th>
-                    <th>Staple Type</th>
-                    <th>Staple length</th>
-                    <th>Trash</th>
-                    <th>Bundle Strength</th>
-                    <th>Micronaire</th>
-                    <th>Moisture</th>
-                    <th>Asking Price</th>
+                    <th>Lot ID</th>
+                    <th>Bale ID</th>
+                    <th>Available For Sale</th>
+                    <th>Organic</th>
+                    <th>BCI</th>
 
                 </tr>
             </thead>
             <tbody>
                 {% for i in rbales %}
                 <tr>
-                    <td>{{i.Bale_ID}}</td>
-                    <td>{{i.Lot_ID}}</td>
                     <td>{{i.Station}}</td>
-                    <td>{{i.Crop_Year}}</td>
-                    <td>{{i.Pick}}</td>
-                    <td>{{i.Staple_Type}}</td>
-                    <td>{{i.Staple_length}}</td>
-                    <td>{{i.Trash}}</td>
-                    <td>{{i.Bundle_Strength}}</td>
-                    <td>{{i.Micronaire}}</td>
-                    <td>{{i.Moisture}}</td>
-                    <td>{{i.Asking_Price}}</td>
+                    <td>{{i.Lot_ID}}</td>
+                    <td>{{i.Bale_ID}}</td>
+                    <td>{{i.Available_For_Sale}}</td>
+                    <td>{{i.Organic}}</td>
+                    <td>{{i.BCI}}</td>
 
                 </tr>
                 {% empty %}
