@@ -307,8 +307,13 @@ def searchbales(request):
         # data = [
         #     {'station':new_data,'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire}
         # ] 
+        max_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Rd'))['Rd__max']
+        print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
+        min_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min']
+        print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
         new_data[0]['Staple_length'] = max_staple+ "-" + min_staple
         new_data[0]['Micronaire'] = max_micronaire +"-"+min_micronaire
+        new_data[0]['Rd'] = max_rd+ "-" + min_rd
         # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
         print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
         # return render(request,"searchbales.html",new_data)
@@ -342,22 +347,28 @@ def searchbalesdata(request):
             'Available_For_Sale':i.Available_For_Sale,
             'BCI':i.BCI,
             'Organic':i.Organic,
+            'Rd':i.Rd,
             'Staple_length':"",
             'Micronaire':"",
         })
         max_staple = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Staple_length'))['Staple_length__max']
         print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
-        
         min_staple = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Staple_length'))['Staple_length__min']
+        print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
+        
+        max_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Rd'))['Rd__max']
+        print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
+        min_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min']
         print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
         
         max_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Micronaire'))['Micronaire__max']
         print("🚀 ~ file: views.py ~ line 210 ~ max_micronaire", max_micronaire)
-        
         min_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Micronaire'))['Micronaire__min']
         print("🚀 ~ file: views.py ~ line 213 ~ min_micronaire", min_micronaire)
+        
         new_data[j]['Staple_length'] = max_staple+ "-" + min_staple
         new_data[j]['Micronaire'] = max_micronaire +"-"+min_micronaire
+        new_data[j]['Rd'] = max_rd+ "-" + min_rd
     # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
     print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
     return HttpResponse(
