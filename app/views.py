@@ -282,6 +282,7 @@ def searchbales(request):
                 'Bale_ID':i.Bale_ID,
                 'Available_For_Sale':i.Available_For_Sale,
                 'BCI':i.BCI,
+                'Rd':"",
                 'Organic':i.Organic,
                 'Staple_length':"",
                 'Micronaire':"",
@@ -308,12 +309,12 @@ def searchbales(request):
         #     {'station':new_data,'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire}
         # ] 
         max_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Rd'))['Rd__max']
-        print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
+        print("🚀 ~ file: views.py ~ line 204 ~ max_rd", max_rd)
         min_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min']
-        print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
+        print("🚀 ~ file: views.py ~ line 207 ~ min_Rd", Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min'])
         new_data[0]['Staple_length'] = max_staple+ "-" + min_staple
         new_data[0]['Micronaire'] = max_micronaire +"-"+min_micronaire
-        new_data[0]['Rd'] = max_rd+ "-" + min_rd
+        new_data[0]['Rd'] = max_rd + "-" + min_rd
         # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
         print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
         # return render(request,"searchbales.html",new_data)
