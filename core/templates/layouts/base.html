@@ -194,6 +194,7 @@
     // ----------------------------------------------------------------------------------------
     $("#testmodel").hide()
     $("#clearSearch").hide()
+    $("#lotid").hide()
     $(document).ready(function () {
       // Setup - add a text input to each footer cell
       $.ajax({
@@ -214,7 +215,9 @@
                       console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
                       users.forEach((item) => {
                         $("#tbody").append(`<tr>
+                                      <td class="border-0">${item.Lot_ID}</td>
                                       <td class="border-0">${item.Station}</td>
+                                      <td class="border-0">${item.variety}</td>
                                       <td class="border-0">${item.Bale_ID}</td>
                                       <td class="border-0">${item.Available_For_Sale}</td>
                                       <td class="border-0">${item.Staple_length}</td>
@@ -260,6 +263,82 @@
                         });
                       }
                     });
+                    $("#datatable tr").click(function() {
+                            // alert($(this).children("td").html());
+                            var lotID = $(this).children("td").html()
+                            $.ajax({
+                                url:"http://127.0.0.1:8000/all_bales/" + lotID,
+                                async: true,
+                                crossDomain: true,
+                                type: "GET",
+                                // data: JSON.stringify(lotID),
+                                processData: false,
+                                dataType: false,
+                                contentType: false,
+                                success: function (response) {
+                                  $("#testmodel").hide()
+                                  $("#clearSearch").hide()
+                                  $("#datatable").hide()
+                                  $("#lotid").show()
+                                  $("#newmodel").hide()
+                                  console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
+                                  var users = response
+                                  console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
+                                  users.forEach((item) => {
+                                    $("#lotidbody").append(`<tr>
+                                                  <td class="border-0">${item.Lot_ID}</td>
+                                                  <td class="border-0">${item.Station}</td>
+                                                  <td class="border-0">${item.variety}</td>
+                                                  <td class="border-0">${item.Bale_ID}</td>
+                                                  <td class="border-0">${item.Available_For_Sale}</td>
+                                                  <td class="border-0">${item.Staple_length}</td>
+                                                  <td class="border-0">${item.Micronaire}</td>
+                                                  <td class="border-0">${item.Rd}</td>
+                                                  <td class="border-0">${item.Organic}</td>
+                                                  <td class="border-0">${item.BCI}</td>
+                                                  </tr>`);
+                                      });
+                                      var collapsedGroups = {};
+                                      lotidn = $('#lotidtable').DataTable({
+                                        rowGroup: {
+                                          // Uses the 'row group' plugin
+                                          dataSrc: 1,
+
+                                          startRender: function (rows, group) {
+                                            var collapsed = !!collapsedGroups[group];
+
+                                            rows.nodes().each(function (r) {
+                                              r.style.display = collapsed ? 'none' : '';
+                                            });
+
+                                            // Add category name to the <tr>. NOTE: Hardcoded colspan
+                                            return $('<tr/>')
+                                              .append('<td colspan="13"class="h4" style="background-color: #ffdd99;" > Station ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
+                                              .attr('data-name', group)
+                                              .toggleClass('collapsed', collapsed);
+                                          }
+                                        },
+                                        initComplete: function () {
+                                          // Apply the search
+                                          this.api().columns().every(function () {
+                                            var that = this;
+
+                                            $('input', this.footer()).on('keyup change clear', function () {
+                                              if (that.search() !== this.value) {
+                                                that
+                                                  .search(this.value)
+                                                  .draw();
+                                              }
+                                            });
+                                          });
+                                        }
+                                      });
+                                },
+                                error: function (err) {
+                                  console.log("🚀  file: gps_session.html  line 75 ~ err", err);
+                                },
+                           });
+                          });
                     $('#datatable tbody').on('click', 'tr.group-start', function () {
                       var name = $(this).data('name');
                       collapsedGroups[name] = !collapsedGroups[name];

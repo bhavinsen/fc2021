@@ -16,6 +16,7 @@ urlpatterns = [
     path('viewmybales',views.viewmybales,name='viewmybales'),
     path('addbales',views.addbales,name='addbales'),
     path('searchbales',views.searchbales,name='searchbales'),
+    path('all_bales/<str:lotID>',views.all_bales,name='all_bales'),
     path('searchbalesdata',views.searchbalesdata,name='searchbalesdata'),
     path('auction_my_bales',views.auction_my_bales,name='auction_my_bales'),
     path('available_for_sale',views.available_for_sale,name='available_for_sale'),

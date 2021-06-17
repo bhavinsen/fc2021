@@ -16,7 +16,7 @@
 
 {% block content %}
 <div id="searchbydata" class="row">
-    <div class="col-12 col-xl-6">
+    <!-- <div class="col-12 col-xl-6">
         <div class="card card-body shadow-sm mb-3">
             <h2 class="h3 mb-4">Search Bales</h2>
             <form method="POST">
@@ -61,15 +61,17 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
 <div class="container-fluid" id="newmodel">
     <div class="table-responsive py-4">
         <h2>List all bales</h2>
         <table class="table table-centered table-nowrap mb-0 rounded" id="datatable">
             <thead class="thead-light">
                 <tr>
+                    <th class="border-0">Lot_ID</th>
                     <th class="border-0">Station</th>
-                    <th class="border-0">Bale ID</th>
+                    <th class="border-0">Variety</th>
+                    <th class="border-0">Total no Bales</th>
                     <th class="border-0">Bales For Sale</th>
                     <th class="border-0">Staple Range</th>
                     <th class="border-0">Micronaire</th>
@@ -82,7 +84,9 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <td>{{i.Lot_ID}}</td>
                     <td>{{i.Station}}</td>
+                    <td>{{i.variety}}</td>
                     <td>{{i.Bale_ID}}</td>
                     <td>{{i.Staple_Range}}</td>
                     <td>{{i.Bales_For_Sale}}</td>
@@ -95,14 +99,16 @@
         </table>
     </div>
 </div>
-<div class="container-fluid" id="testmodel">
+<!-- <div class="container-fluid" id="testmodel">
     <div class="table-responsive py-4">
         <h2>List all bales</h2>
         <table class="table table-centered table-nowrap mb-0 rounded" id="testtable">
             <thead class="thead-light">
                 <tr>
+                    <th class="border-0">Lot_ID</th>
                     <th class="border-0">Station</th>
-                    <th class="border-0">Bale ID</th>
+                    <th class="border-0">Variety</th>
+                    <th class="border-0">Total no Bales</th>
                     <th class="border-0">Bales For Sale</th>
                     <th class="border-0">Staple Range</th>
                     <th class="border-0">Micronaire</th>
@@ -115,7 +121,46 @@
             </tbody>
             <tfoot>
                 <tr>
+                    <td>{{i.Lot_ID}}</td>
                     <td>{{i.Station}}</td>
+                    <td>{{i.variety}}</td>
+                    <td>{{i.Bale_ID}}</td>
+                    <td>{{i.Staple_Range}}</td>
+                    <td>{{i.Bales_For_Sale}}</td>
+                    <td>{{i.Micronaire}}</td>
+                    <td>{{i.Rd}}</td>
+                    <td>{{i.Organic}}</td>
+                    <td>{{i.BCI}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div> -->
+<div class="container-fluid" id="lotid">
+    <div class="table-responsive py-4">
+        <h2>List all bales</h2>
+        <table class="table table-centered table-nowrap mb-0 rounded" id="lotidtable">
+            <thead class="thead-light">
+                <tr>
+                    <th class="border-0">Lot_ID</th>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Variety</th>
+                    <th class="border-0">Bale ID</th>
+                    <th class="border-0">Bales For Sale</th>
+                    <th class="border-0">Staple Range</th>
+                    <th class="border-0">Micronaire</th>
+                    <th class="border-0">Rd</th>
+                    <th class="border-0">Organic</th>
+                    <th class="border-0">BCI</th>
+                </tr>
+            </thead>
+            <tbody id="lotidbody">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>{{i.Lot_ID}}</td>
+                    <td>{{i.Station}}</td>
+                    <td>{{i.variety}}</td>
                     <td>{{i.Bale_ID}}</td>
                     <td>{{i.Staple_Range}}</td>
                     <td>{{i.Bales_For_Sale}}</td>
@@ -128,7 +173,6 @@
         </table>
     </div>
 </div>
-
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->

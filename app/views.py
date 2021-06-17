@@ -28,6 +28,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from django.core.serializers import serialize
 from django.db.models import Avg, Max, Min, Sum
+from .serializers import BalesSerializer
 # @login_required(login_url="/login/")
 # def index(request):
 #     context = {}
@@ -341,35 +342,55 @@ def searchbalesdata(request):
     bales = Bale.objects.all()
     # print(bales)
     new_data = []
+    unique_station = {}
     for j,i in enumerate(bales):
-        new_data.append({
-            'Station':i.Station,
-            'Bale_ID':i.Bale_ID,
-            'Available_For_Sale':i.Available_For_Sale,
-            'BCI':i.BCI,
-            'Organic':i.Organic,
-            'Rd':i.Rd,
-            'Staple_length':"",
-            'Micronaire':"",
-        })
+        # new_data.append({
+        #     'Station':i.Station,
+        #     'Bale_ID':i.Bale_ID,
+        #     'Available_For_Sale':i.Available_For_Sale,
+        #     'BCI':i.BCI,
+        #     'Organic':i.Organic,
+        #     'Rd':i.Rd,
+        #     'Staple_length':"",
+        #     'Micronaire':"",
+        # })
+        
+        total_bales = Bale.objects.filter(Q(Station__exact=i.Station)).count()
         max_staple = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Staple_length'))['Staple_length__max']
-        print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
+        
         min_staple = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Staple_length'))['Staple_length__min']
-        print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
+        
         
         max_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Rd'))['Rd__max']
-        print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
+        
         min_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min']
-        print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
+        
         
         max_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Micronaire'))['Micronaire__max']
-        print("🚀 ~ file: views.py ~ line 210 ~ max_micronaire", max_micronaire)
-        min_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Micronaire'))['Micronaire__min']
-        print("🚀 ~ file: views.py ~ line 213 ~ min_micronaire", min_micronaire)
         
-        new_data[j]['Staple_length'] = max_staple+ "-" + min_staple
-        new_data[j]['Micronaire'] = max_micronaire +"-"+min_micronaire
-        new_data[j]['Rd'] = max_rd+ "-" + min_rd
+        min_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Micronaire'))['Micronaire__min']
+        
+        
+        Staple_length = min_staple+ "-" +  max_staple
+        Micronaire =  min_micronaire +"-"+ max_micronaire
+        Rd =min_rd + "-" +  max_rd 
+        if i.Lot_ID in unique_station:
+            continue
+        else:
+            unique_station[i.Lot_ID] = True
+            new_data.append({
+                    'Lot_ID':i.Lot_ID,
+                    'Station':i.Station,
+                    'variety':i.variety,
+                    'Bale_ID':total_bales,
+                    'weightinkg':i.weightinkg,
+                    'Staple_length':Staple_length,
+                    'Micronaire':Micronaire,
+                    'Rd':Rd,
+                    'Available_For_Sale':i.Available_For_Sale,
+                    'BCI':i.BCI,
+                    'Organic':i.Organic,
+            })
     # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
     print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
     return HttpResponse(
@@ -408,3 +429,15 @@ def seeks_bids_to_supply(request):
 @csrf_exempt
 def live_auction(request):
     return render(request,'live_auction.html')
+
+@csrf_exempt
+def all_bales(request,lotID):
+    print("🚀 ~ file: views.py ~ line 434 ~ lotID", lotID)
+    data = Bale.objects.filter(Lot_ID=lotID)
+    print("🚀 ~ file: views.py ~ line 435 ~ data", data)
+    # return HttpResponse(
+    #     json.dumps(data),
+    #     content_type="application/json"
+    # )
+    data1 = BalesSerializer(data,many=True)
+    return JsonResponse(data1.data,safe=False)
