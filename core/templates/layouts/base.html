@@ -192,19 +192,97 @@
 
     });
     // ----------------------------------------------------------------------------------------
-    // $(document).ready(function () {
-    //   // Setup - add a text input to each footer cell
-    //   $('#datatable tfoot th').each(function () {
-    //     var title = $(this).text();
-    //     $(this).html('<input type="text" placeholder="Search ' + title + '" />');
-    //   });
+    $(document).ready(function () {
+      // Setup - add a text input to each footer cell
+      $.ajax({
+            url:"http://127.0.0.1:8000/searchbalesdata",
+            async: true,
+            crossDomain: true,
+            type: "GET",
+            processData: false,
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+              console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
+              // for(var i = 0; i < response[0].length; i++) {
+              //   $('#tbody').append('<tr><td>' + response[0][i]['id'] + '</td><td>' + response[0][i]['first_name'] + " " + response[0][i]['last_name'] + '</td><td>' + response[0][i]['table'] + '</td><td>' + response[0][i]['items_won'] + '</td><td>' + response[0][i]['pledges_made'] +'</td><td>' + response[0][i]['amount_owed'] + '</td><td><button class="btn btn-primary">CLICK HERE</button></td></tr>');
+              // }
+                $(document).ready(function () {
+                      var users = response
+                      console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
+                      users.forEach((item) => {
+                        $("#tbody").append(`<tr>
+                                      <td class="border-0">${item.Station}</td>
+                                      <td class="border-0">${item.Bale_ID}</td>
+                                      <td class="border-0">${item.Available_For_Sale}</td>
+                                      <td class="border-0">${item.Staple_length}</td>
+                                      <td class="border-0">${item.Micronaire}</td>
+                                      <td class="border-0">${item.Organic}</td>
+                                      <td class="border-0">${item.BCI}</td>
+                                      </tr>`);
+                          });
+                });
+                    var collapsedGroups = {};
+                    table = $('#datatable').DataTable({
+                      rowGroup: {
+                        // Uses the 'row group' plugin
+                        dataSrc: 0,
 
-    //   DataTable
+                        startRender: function (rows, group) {
+                          var collapsed = !!collapsedGroups[group];
+
+                          rows.nodes().each(function (r) {
+                            r.style.display = collapsed ? 'none' : '';
+                          });
+
+                          // Add category name to the <tr>. NOTE: Hardcoded colspan
+                          return $('<tr/>')
+                            .append('<td colspan="13"class="h4" style="background-color: #ffdd99;" > Station ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
+                            .attr('data-name', group)
+                            .toggleClass('collapsed', collapsed);
+                        }
+                      },
+                      initComplete: function () {
+                        // Apply the search
+                        this.api().columns().every(function () {
+                          var that = this;
+
+                          $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                              that
+                                .search(this.value)
+                                .draw();
+                            }
+                          });
+                        });
+                      }
+                    });
+                    $('#datatable tbody').on('click', 'tr.group-start', function () {
+                      var name = $(this).data('name');
+                      collapsedGroups[name] = !collapsedGroups[name];
+                      table.draw(false);
+                    });
+              
+                    $('#datatable tfoot th').each(function () {
+                      var title = $(this).text();
+                      $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+                    });
+              }
+            });
+
+      
+
+    });
+
+    // $(document).ready(function () {
     //   var collapsedGroups = {};
-    //   table = $('#datatable').DataTable({
+
+    //   var table = $('#newtable').DataTable({
+    //     dom: 'lr<"table-filter-container">tip',
+    //     order: [[1, 'asc']],
     //     rowGroup: {
     //       // Uses the 'row group' plugin
-    //       dataSrc: 0,
+    //       dataSrc: 1,
 
     //       startRender: function (rows, group) {
     //         var collapsed = !!collapsedGroups[group];
@@ -215,81 +293,34 @@
 
     //         // Add category name to the <tr>. NOTE: Hardcoded colspan
     //         return $('<tr/>')
-    //           .append('<td colspan="13" style="text-align: center;"> Station ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
+    //           .append('<td colspan="12" style="text-align: center;"> Lot ID  ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
     //           .attr('data-name', group)
     //           .toggleClass('collapsed', collapsed);
     //       }
     //     },
-    //     initComplete: function () {
-    //       // Apply the search
-    //       this.api().columns().every(function () {
-    //         var that = this;
+    //     initComplete: function (settings) {
+    //       var api = new $.fn.dataTable.Api(settings);
+    //       $('.table-filter-container', api.table().container()).append(
+    //         $('#table-filter').detach().show()
+    //       );
 
-    //         $('input', this.footer()).on('keyup change clear', function () {
-    //           if (that.search() !== this.value) {
-    //             that
-    //               .search(this.value)
-    //               .draw();
-    //           }
-    //         });
+    //       $('#table-filter select').on('change', function () {
+    //         table.search(this.value).draw();
     //       });
     //     }
     //   });
-    //   $('#datatable tbody').on('click', 'tr.group-start', function () {
+
+    //   $('#newtable tbody').on('click', 'tr.group-start', function () {
     //     var name = $(this).data('name');
     //     collapsedGroups[name] = !collapsedGroups[name];
     //     table.draw(false);
     //   });
 
     // });
-
-    $(document).ready(function () {
-      var collapsedGroups = {};
-
-      var table = $('#newtable').DataTable({
-        dom: 'lr<"table-filter-container">tip',
-        order: [[1, 'asc']],
-        rowGroup: {
-          // Uses the 'row group' plugin
-          dataSrc: 1,
-
-          startRender: function (rows, group) {
-            var collapsed = !!collapsedGroups[group];
-
-            rows.nodes().each(function (r) {
-              r.style.display = collapsed ? 'none' : '';
-            });
-
-            // Add category name to the <tr>. NOTE: Hardcoded colspan
-            return $('<tr/>')
-              .append('<td colspan="12" style="text-align: center;"> Lot ID  ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
-              .attr('data-name', group)
-              .toggleClass('collapsed', collapsed);
-          }
-        },
-        initComplete: function (settings) {
-          var api = new $.fn.dataTable.Api(settings);
-          $('.table-filter-container', api.table().container()).append(
-            $('#table-filter').detach().show()
-          );
-
-          $('#table-filter select').on('change', function () {
-            table.search(this.value).draw();
-          });
-        }
-      });
-
-      $('#newtable tbody').on('click', 'tr.group-start', function () {
-        var name = $(this).data('name');
-        collapsedGroups[name] = !collapsedGroups[name];
-        table.draw(false);
-      });
-
-    });
-    $("#newmodel").hide()
+    // $("#newmodel").hide()
     $("#datasearch").click(function(){
       $("#tbody").html("")
-      $("#newmodel").show()
+      // $("#newmodel").show()
         console.log("🚀 ~ file: base.html ~ line 252 ~ $ ~ datasearch")
         // alert("The paragraph was clicked.");
       var data = {};
@@ -314,9 +345,9 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
                       console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
-                      // for(var i = 0; i < response[0].length; i++) {
-                      //   $('#tbody').append('<tr><td>' + response[0][i]['id'] + '</td><td>' + response[0][i]['first_name'] + " " + response[0][i]['last_name'] + '</td><td>' + response[0][i]['table'] + '</td><td>' + response[0][i]['items_won'] + '</td><td>' + response[0][i]['pledges_made'] +'</td><td>' + response[0][i]['amount_owed'] + '</td><td><button class="btn btn-primary">CLICK HERE</button></td></tr>');
-                      // }
+                      for(var i = 0; i < response[0].length; i++) {
+                        $('#tbody').append('<tr><td>' + response[0][i]['id'] + '</td><td>' + response[0][i]['first_name'] + " " + response[0][i]['last_name'] + '</td><td>' + response[0][i]['table'] + '</td><td>' + response[0][i]['items_won'] + '</td><td>' + response[0][i]['pledges_made'] +'</td><td>' + response[0][i]['amount_owed'] + '</td><td><button class="btn btn-primary">CLICK HERE</button></td></tr>');
+                      }
                         $(document).ready(function () {
                           var collapsedGroups = {};
                               var users = response
@@ -340,7 +371,7 @@
                                 "bFilter": true,
                                 "bInfo": false,
                                 "bAutoWidth": false,
-                                // data:users,
+                                data:users,
                               //   'columns': [
                               //       { 
                               //           "data": "Station",                   
@@ -394,24 +425,24 @@
                               //           }
                               //       },
                               // ],
-                              //   rowGroup: {
-                              //   // Uses the 'row group' plugin
-                              //     dataSrc: 0,
+                                rowGroup: {
+                                // Uses the 'row group' plugin
+                                  dataSrc: 0,
 
-                              //     startRender: function (rows, group) {
-                              //       var collapsed = !!collapsedGroups[group];
+                                  startRender: function (rows, group) {
+                                    var collapsed = !!collapsedGroups[group];
 
-                              //       rows.nodes().each(function (r) {
-                              //         r.style.display = collapsed ? 'none' : '';
-                              //       });
+                                    rows.nodes().each(function (r) {
+                                      r.style.display = collapsed ? 'none' : '';
+                                    });
 
-                              //       // Add category name to the <tr>. NOTE: Hardcoded colspan
-                              //       return $('<tr/>')
-                              //         .append('<td colspan="13" style="text-align: center;"> Station ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
-                              //         .attr('data-name', group)
-                              //         .toggleClass('collapsed', collapsed);
-                              //     }
-                              // },
+                                    // Add category name to the <tr>. NOTE: Hardcoded colspan
+                                    return $('<tr/>')
+                                      .append('<td colspan="13" style="text-align: center;"> Station ' + ": " + group + ' Total Bales ' + ": " + rows.count() + '</td>')
+                                      .attr('data-name', group)
+                                      .toggleClass('collapsed', collapsed);
+                                  }
+                              },
                               });
                               $('#datatable tbody').on('click', 'tr.group-start', function () {
                                 var name = $(this).data('name');
