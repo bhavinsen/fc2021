@@ -56,7 +56,7 @@ class Bale(models.Model):
     #     ]
 
     def __str__(self):
-        return str(self.id)
+        return str(self.Bale_ID) + str(self.Lot_ID) + str(self.variety) + str(self.Station)
 
 
 class Profile(models.Model):

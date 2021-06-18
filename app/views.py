@@ -92,8 +92,12 @@ def viewmybales(request):
     users = User.objects.all()
     data = TestBale.objects.all()
     query = request.user
-    rbales = Bale.objects.filter(Q(user__exact=query))
-    bales = Bale.objects.all()
+    if request.user.is_superuser:
+        bales = Bale.objects.all()
+    else:
+       bales = Bale.objects.filter(Q(user__exact=query))
+    # rbales = Bale.objects.filter(Q(user__exact=query))
+    # bales = Bale.objects.all()
     newdata = []
     # bales = Bale.objects.raw("SELECT id, Bale_ID, COUNT(Bale_ID) as count_of_bales, Station, variety, weightinkg, MAX(Staple_length) as max_sl, min(Staple_length) as min_sl, max(Micronaire), min(Micronaire), max(Rd), min(Rd), "
                             #  "Organic, BCI FROM app_bale GROUP BY Station")
@@ -136,7 +140,7 @@ def viewmybales(request):
     #         print("*************** ")
     #     print(newdata)
     #     return JsonResponse(newdata,safe=False)
-    return render(request,'viewmybales.html',{'data':data,'users':users,'bales':new_data,'rbales':rbales})
+    return render(request,'viewmybales.html',{'data':data,'users':users,'bales':new_data,'rbales':new_data})
 
 @login_required(login_url="/login/")
 @csrf_exempt
@@ -296,63 +300,61 @@ def addtestdata(request):
 @csrf_exempt
 def searchbales(request):
     # request.body
-    if request.method == 'POST' and request.is_ajax:
-        print("🚀 ~ file: views.py ~ line 191 ~ request.body", json.loads(request.body)['Station'])
-    
-        data= json.loads(request.body)
-        # bales = Bale.objects.all()
-        bales = Bale.objects.filter(Q(Station__exact=json.loads(request.body)['Station']))
-        # print(bales)
-        new_data = []
-        for j,i in enumerate(bales):
-            new_data.append({
-                'Station':i.Station,
-                'Bale_ID':i.Bale_ID,
-                'Available_For_Sale':i.Available_For_Sale,
-                'BCI':i.BCI,
-                'Rd':"",
-                'Organic':i.Organic,
-                'Staple_length':"",
-                'Micronaire':"",
-            })
-            # new_data['Station']=i.Station
-            # new_data['Bale_ID']=i.Bale_ID
-            # new_data['Available_For_Sale']=i.Available_For_Sale
-            # new_data['BCI']=i.BCI
-            # print(i.BCI)
-        # print("🚀 ~ file: views.py ~ line 199 ~ bales", bales)
-        # data = serialize("json", bales)
-            max_staple = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Max('Staple_length'))['Staple_length__max']
-            print("🚀 ~ file: views.py ~ line 204 ~ max_staple", max_staple)
-            
-            min_staple = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Min('Staple_length'))['Staple_length__min']
-            print("🚀 ~ file: views.py ~ line 207 ~ min_staple", min_staple)
-            
-            max_micronaire = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Max('Micronaire'))['Micronaire__max']
-            print("🚀 ~ file: views.py ~ line 210 ~ max_micronaire", max_micronaire)
-            
-            min_micronaire = Bale.objects.filter(Q(Station__exact=data["Station"])).aggregate(Min('Micronaire'))['Micronaire__min']
-            print("🚀 ~ file: views.py ~ line 213 ~ min_micronaire", min_micronaire)
-            # data = [
-            #     {'station':new_data,'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire}
-            # ] 
-            max_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Rd'))['Rd__max']
-            print("🚀 ~ file: views.py ~ line 204 ~ max_rd", max_rd)
-            max_gtex = Bale.objects.filter(Station=i.Station).aggregate(Max('GTex'))['GTex__max']
-            min_gtex = Bale.objects.filter(Station=i.Station).aggregate(Min('GTex'))['GTex__min']
-            min_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min']
-            print("🚀 ~ file: views.py ~ line 207 ~ min_Rd", Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min'])
-            new_data[j]['Staple_length'] = max_staple+ "-" + min_staple
-            new_data[j]['Micronaire'] = max_micronaire +"-"+min_micronaire
-            new_data[j]['Rd'] = max_rd + "-" + min_rd
-            new_data[j]['Gtex'] =  min_gtex +"-"+ max_gtex
-            # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
-            print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
-        # return render(request,"searchbales.html",new_data)
-        return HttpResponse(
-            json.dumps(new_data),
-            content_type="application/json"
-        )
+   
+    bales = Bale.objects.raw("SELECT id, Bale_ID, COUNT(Bale_ID) as count_of_bales, Station, variety, weightinkg, MAX(Staple_length) as max_sl, min(Staple_length) as min_sl, max(Micronaire), min(Micronaire), max(Rd), min(Rd), "
+                            "Organic, BCI FROM app_bale GROUP BY Station")
+    new_data = []
+    for i in bales:
+
+        LOt_id = Bale.objects.get(Bale_ID=i.Bale_ID,Lot_ID=i.Lot_ID,Station=i.Station,variety=i.variety)
+        print("🚀 ~ file: views.py ~ line 310 ~ bale_id", LOt_id.Lot_ID)
+        
+        for_sale_count = Bale.objects.filter(Station=i.Station).filter(Available_For_Sale=True).count()
+
+        max_staple = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Max('Staple_length'))[
+            'Staple_length__max']
+        min_staple = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Min('Staple_length'))[
+            'Staple_length__min']
+
+        max_mic = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Max('Micronaire'))[
+            'Micronaire__max']
+        min_mic = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Min('Micronaire'))[
+            'Micronaire__min']
+
+        max_rd = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Max('Rd'))['Rd__max']
+        min_rd = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Min('Rd'))['Rd__min']
+
+        max_price = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Max('Spot_Price'))['Spot_Price__max']
+        min_price = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Min('Spot_Price'))['Spot_Price__min']
+
+        organic_count = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).filter(Organic=True).count()
+        bci_count = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).filter(BCI=True).count()
+
+        max_gtex = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Max('GTex'))['GTex__max']
+        min_gtex = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Min('GTex'))['GTex__min']
+        
+            # bales_count = Bale.objects.filter(Lot_ID=i.Lot_ID).filter().count()
+
+        new_data.append({
+            'Lot_ID':i.Lot_ID,
+            'station': i.Station,
+            'variety': i.variety,
+            'total_bales': i.count_of_bales,
+            'for_sale': for_sale_count,
+            'mic_range': str(min_mic) + " - " + str(max_mic),
+            'staple_range': str(min_staple) + " - " + str(max_staple),
+            'rd_range': str(min_rd) + " - " + str(max_rd),
+            'price_range': str(min_price) + " - " + str(max_price),
+            'organic_count': str(organic_count),
+            'bci_count': str(bci_count),
+            'gtex_range': str(min_gtex) + " - " + str(max_gtex),
+        })
+    print("🚀 ~ file: views.py ~ line 375 ~ new_data", new_data)
+    return render(request,"searchbales.html",{"list_data":new_data})
+        # return HttpResponse(
+        #     json.dumps(new_data),
+        #     content_type="application/json"
+        # )
     # bales = Bale.objects.all()
     # if request.method == 'GET':
     #     query= request.GET.get('q')
@@ -368,6 +370,7 @@ def searchbales(request):
 @login_required(login_url="/login/")
 @csrf_exempt
 def searchbalesdata(request):
+    # user = request.user
     bales = Bale.objects.raw("SELECT id, Bale_ID, COUNT(Bale_ID) as count_of_bales, Station, variety, weightinkg, MAX(Staple_length) as max_sl, min(Staple_length) as min_sl, max(Micronaire), min(Micronaire), max(Rd), min(Rd), "
                              "Organic, BCI FROM app_bale GROUP BY Station")
     new_data = []
@@ -400,6 +403,7 @@ def searchbalesdata(request):
 
 
         new_data.append({
+            'Lot_ID':i.Lot_ID,
             'station': i.Station,
             'variety': i.variety,
             'total_bales': i.count_of_bales,
@@ -499,14 +503,15 @@ def live_auction(request):
 @csrf_exempt
 def all_bales(request,lotID):
     print("🚀 ~ file: views.py ~ line 434 ~ lotID", lotID)
-    data = Bale.objects.filter(Station=lotID)
+    data = Bale.objects.filter(Lot_ID=lotID)
     print("🚀 ~ file: views.py ~ line 435 ~ data", data)
     # return HttpResponse(
     #     json.dumps(data),
     #     content_type="application/json"
     # )
     data1 = BalesSerializer(data,many=True)
-    return JsonResponse(data1.data,safe=False)
+    return render(request,'all_bales.html',{"data":data1.data})
+    # return JsonResponse(data1.data,safe=False)
 
 
 

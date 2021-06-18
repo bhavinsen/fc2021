@@ -197,84 +197,85 @@
     $("#lotid").hide()
     $(document).ready(function () {
       // Setup - add a text input to each footer cell
-      $.ajax({
-            url:"http://127.0.0.1:8000/searchbalesdata",
-            async: true,
-            crossDomain: true,
-            type: "GET",
-            processData: false,
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-              console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
-                $(document).ready(function () {
-                      var users = response
-                      console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
-                      users.forEach((item) => {
-                        $("#tbody").append(`<tr>
-                                      <td class="border-0">${item.station}</td>
-                                      <td class="border-0">${item.variety}</td>
-                                      <td class="border-0">${item.total_bales}</td>
-                                      <td class="border-0">${item.for_sale}</td>
-                                      <td class="border-0">${item.staple_range}</td>
-                                      <td class="border-0">${item.mic_range}</td>
-                                      <td class="border-0">${item.rd_range}</td>
-                                      <td class="border-0">${item.gtex_range}</td>
-                                      <td class="border-0">${item.organic_count}</td>
-                                      <td class="border-0">${item.bci_count}</td>
-                                      </tr>`);
-                          });
-                });
-                    var collapsedGroups = {};
-                    table = $('#datatable').DataTable({
-                    });
-                    $("#datatable tr").click(function() {
-                            // alert($(this).children("td").html());
-                            var lotID = $(this).children("td").html()
-                            $.ajax({
-                                url:"http://127.0.0.1:8000/all_bales/" + lotID,
-                                async: true,
-                                crossDomain: true,
-                                type: "GET",
-                                // data: JSON.stringify(lotID),
-                                processData: false,
-                                dataType: false,
-                                contentType: false,
-                                success: function (response) {
-                                  $("#testmodel").hide()
-                                  $("#clearSearch").hide()
-                                  $("#datatable").hide()
-                                  $("#lotid").show()
-                                  $("#newmodel").hide()
-                                  console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
-                                  var users = response
-                                  console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
-                                  users.forEach((item) => {
-                                    $("#lotidbody").append(`<tr>
-                                                  <td class="border-0">${item.Lot_ID}</td>
-                                                  <td class="border-0">${item.Station}</td>
-                                                  <td class="border-0">${item.variety}</td>
-                                                  <td class="border-0">${item.Bale_ID}</td>
-                                                  <td class="border-0">${item.Available_For_Sale}</td>
-                                                  <td class="border-0">${item.Staple_length}</td>
-                                                  <td class="border-0">${item.Micronaire}</td>
-                                                  <td class="border-0">${item.Rd}</td>
-                                                  <td class="border-0">${item.GTex}</td>
-                                                  <td class="border-0">${item.Organic}</td>
-                                                  <td class="border-0">${item.BCI}</td>
-                                                  </tr>`);
-                                      });
-                                      var collapsedGroups = {};
-                                      lotidn = $('#lotidtable').DataTable({
-                                      });
-                                },
-                                error: function (err) {
-                                  console.log("🚀  file: gps_session.html  line 75 ~ err", err);
-                                },
-                           });
-                          });
-              }
-            });
+      // $.ajax({
+      //       url:{% url 'searchbalesdata' %},
+      //       async: true,
+      //       crossDomain: true,
+      //       type: "GET",
+      //       processData: false,
+      //       dataType: "json",
+      //       contentType: "application/json; charset=utf-8",
+      //       success: function (response) {
+      //         console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
+      //           $(document).ready(function () {
+      //                 var users = response
+      //                 console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
+      //                 users.forEach((item) => {
+      //                   $("#tbody").append(`<tr>
+      //                                 <td class="border-0">${item.Lot_ID}</td>
+      //                                 <td class="border-0">${item.station}</td>
+      //                                 <td class="border-0">${item.variety}</td>
+      //                                 <td class="border-0">${item.total_bales}</td>
+      //                                 <td class="border-0">${item.for_sale}</td>
+      //                                 <td class="border-0">${item.staple_range}</td>
+      //                                 <td class="border-0">${item.mic_range}</td>
+      //                                 <td class="border-0">${item.rd_range}</td>
+      //                                 <td class="border-0">${item.gtex_range}</td>
+      //                                 <td class="border-0">${item.organic_count}</td>
+      //                                 <td class="border-0">${item.bci_count}</td>
+      //                                 </tr>`);
+      //                     });
+      //           });
+      //               var collapsedGroups = {};
+      //               table = $('#datatable').DataTable({
+      //               });
+      //               $("#datatable tr").click(function() {
+      //                       // alert($(this).children("td").html());
+      //                       var lotID = $(this).children("td").html()
+      //                       $.ajax({
+      //                           url:"/all_bales/" + lotID,
+      //                           async: true,
+      //                           crossDomain: true,
+      //                           type: "GET",
+      //                           // data: JSON.stringify(lotID),
+      //                           processData: false,
+      //                           dataType: false,
+      //                           contentType: false,
+      //                           success: function (response) {
+      //                             $("#testmodel").hide()
+      //                             $("#clearSearch").hide()
+      //                             $("#datatable").hide()
+      //                             $("#lotid").show()
+      //                             $("#newmodel").hide()
+      //                             console.log("🚀 ~ file: base.html ~ line 269 ~ response", response)
+      //                             var users = response
+      //                             console.log("🚀 ~ file: base.html ~ line 307 ~ users", users)
+      //                             users.forEach((item) => {
+      //                               $("#lotidbody").append(`<tr>
+      //                                             <td class="border-0">${item.Lot_ID}</td>
+      //                                             <td class="border-0">${item.Station}</td>
+      //                                             <td class="border-0">${item.variety}</td>
+      //                                             <td class="border-0">${item.Bale_ID}</td>
+      //                                             <td class="border-0">${item.Available_For_Sale}</td>
+      //                                             <td class="border-0">${item.Staple_length}</td>
+      //                                             <td class="border-0">${item.Micronaire}</td>
+      //                                             <td class="border-0">${item.Rd}</td>
+      //                                             <td class="border-0">${item.GTex}</td>
+      //                                             <td class="border-0">${item.Organic}</td>
+      //                                             <td class="border-0">${item.BCI}</td>
+      //                                             </tr>`);
+      //                                 });
+      //                                 var collapsedGroups = {};
+      //                                 lotidn = $('#lotidtable').DataTable({
+      //                                 });
+      //                           },
+      //                           error: function (err) {
+      //                             console.log("🚀  file: gps_session.html  line 75 ~ err", err);
+      //                           },
+      //                      });
+      //                     });
+      //         }
+      //       });
     });
 
     // $(document).ready(function () {
@@ -340,7 +341,7 @@
       data['Micronaire'] = Micronaire;
       $(document).ready(function () {
                 $.ajax({
-                    url:"http://127.0.0.1:8000/searchbales",
+                    url:{% url 'searchbales' %},
                     async: true,
                     crossDomain: true,
                     type: "POST",
@@ -409,7 +410,7 @@
                     avForSale['value'] = values
                     console.log("🚀 ~ file: base.html ~ line 442 ~ avForSale", avForSale)
                 $.ajax({
-                    url:"http://127.0.0.1:8000/available_for_sale",
+                    url:{% url 'available_for_sale' %},
                     async: true,
                     crossDomain: true,
                     type: "POST",
@@ -525,6 +526,12 @@
               order: [[2, 'asc']],
             });
       });
+      $(document).ready(function () {
+            var table = $('#all_balestable').DataTable({
+              order: [[0, 'asc']],
+            });
+      });
+      
   </script>
  
 </body>

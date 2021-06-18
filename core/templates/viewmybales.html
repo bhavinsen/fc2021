@@ -15,7 +15,7 @@
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <h2><b>View All Bales Data </b></h2>
+    <h2><b>View My Bales Data </b></h2>
     
 </div>
 
@@ -43,7 +43,7 @@
                     <th class="border-0">Available For Sale</th>
                     <th class="border-0">Organic</th>
                     <th class="border-0">BCI</th>
-                    <th class="border-0">User</th>
+                    
 
                 </tr>
             </thead>
@@ -56,7 +56,7 @@
                     <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
                     <td class="border-0">{{i.Organic}}</td>
                     <td class="border-0">{{i.BCI}}</td>
-                    <td class="border-0">{{i.user}}</td>
+                    
                 </tr>
                 {% empty %}
                 <tr>
