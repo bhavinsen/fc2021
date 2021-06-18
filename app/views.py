@@ -100,6 +100,7 @@ def viewmybales(request):
     new_data = []
     unique_station = {}
     for j,i in enumerate(bales):
+        bales_count = Bale.objects.filter(Lot_ID=i.Lot_ID).filter().count()
         if i.Lot_ID in unique_station:
             continue
         else:
@@ -107,7 +108,7 @@ def viewmybales(request):
             new_data.append({
                 'Station': i.Station,
                 'variety': i.variety,
-                'Bale_ID': i.Bale_ID,
+                'Bale_ID': bales_count,
                 'Lot_ID':i.Lot_ID,
                 'Micronaire': i.Micronaire,
                 'Staple_length': i.Staple_length ,
