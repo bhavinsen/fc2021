@@ -53,7 +53,7 @@
                     <td class="border-0">{{i.Station}}</td>
                     <td class="border-0">{{i.Lot_ID}}</td>
                     <td class="border-0">{{i.Bale_ID}}</td>
-                    <td class="border-0"><input type="checkbox" id="sale_{{i.id}}" class="a" value={{i.Available_For_Sale}} ></td>
+                    <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
                     <td class="border-0">{{i.Organic}}</td>
                     <td class="border-0">{{i.BCI}}</td>
                     <td class="border-0">{{i.user}}</td>
@@ -87,24 +87,23 @@
         <table class="table table-flush" id="newtable" class="display">
             <thead class="thead-light">
                 <tr>
-                    <th>Station</th>
-                    <th>Lot ID</th>
-                    <th>Bale ID</th>
-                    <th>Available For Sale</th>
-                    <th>Organic</th>
-                    <th>BCI</th>
-
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Lot ID</th>
+                    <th class="border-0">Bale ID</th>
+                    <th class="border-0">Available For Sale</th>
+                    <th class="border-0">Organic</th>
+                    <th class="border-0">BCI</th>
                 </tr>
             </thead>
             <tbody>
                 {% for i in rbales %}
                 <tr>
-                    <td>{{i.Station}}</td>
-                    <td>{{i.Lot_ID}}</td>
-                    <td>{{i.Bale_ID}}</td>
-                    <td>{{i.Available_For_Sale}}</td>
-                    <td>{{i.Organic}}</td>
-                    <td>{{i.BCI}}</td>
+                    <td class="border-0">{{i.Station}}</td>
+                    <td class="border-0">{{i.Lot_ID}}</td>
+                    <td class="border-0">{{i.Bale_ID}}</td>
+                    <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
+                    <td class="border-0">{{i.Organic}}</td>
+                    <td class="border-0">{{i.BCI}}</td>
 
                 </tr>
                 {% empty %}

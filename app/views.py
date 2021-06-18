@@ -95,6 +95,32 @@ def viewmybales(request):
     rbales = Bale.objects.filter(Q(user__exact=query))
     bales = Bale.objects.all()
     newdata = []
+    # bales = Bale.objects.raw("SELECT id, Bale_ID, COUNT(Bale_ID) as count_of_bales, Station, variety, weightinkg, MAX(Staple_length) as max_sl, min(Staple_length) as min_sl, max(Micronaire), min(Micronaire), max(Rd), min(Rd), "
+                            #  "Organic, BCI FROM app_bale GROUP BY Station")
+    new_data = []
+    unique_station = {}
+    for j,i in enumerate(bales):
+        if i.Lot_ID in unique_station:
+            continue
+        else:
+            unique_station[i.Lot_ID] = True
+            new_data.append({
+                'Station': i.Station,
+                'variety': i.variety,
+                'Bale_ID': i.Bale_ID,
+                'Lot_ID':i.Lot_ID,
+                'Micronaire': i.Micronaire,
+                'Staple_length': i.Staple_length ,
+                'Rd':i.Rd,
+                'Available_For_Sale':i.Available_For_Sale,
+                'Spot_Price': i.Spot_Price,
+                'weightinkg': i.weightinkg,
+                'Organic': i.Organic,
+                'BCI': i.BCI,
+                'GTex': i.GTex,
+                'user': i.user
+            })
+    print("🚀 ~ file: views.py ~ line 375 ~ new_data", new_data)
     # if request.method == 'POST':
     #     arr = json.loads(request.body)
     #     newlist = arr['arr']
@@ -109,23 +135,22 @@ def viewmybales(request):
     #         print("*************** ")
     #     print(newdata)
     #     return JsonResponse(newdata,safe=False)
-    return render(request,'viewmybales.html',{'data':data,'users':users,'bales':bales,'rbales':rbales})
+    return render(request,'viewmybales.html',{'data':data,'users':users,'bales':new_data,'rbales':rbales})
 
 @login_required(login_url="/login/")
 @csrf_exempt
 def available_for_sale(request):
-    
     data= json.loads(request.body)
-    print("🚀 ~ file: views.py ~ line 130 ~ data", data['id'][-3:])
-    sale_id = data['id'][-3:]
+    sale_id = data['id']
     sale_value =  data['value']
-    bales = Bale.objects.get(id=sale_id)
-    if sale_value == "True":
-        bales.Available_For_Sale = False
-    else:
-        bales.Available_For_Sale = True
-    bales.save()
-    print("🚀 ~ file: views.py ~ line 134 ~ bales", bales.Available_For_Sale)
+    bales = Bale.objects.filter(Lot_ID=sale_id)
+    for bale in bales:
+
+        if sale_value == "True":
+            bale.Available_For_Sale = False
+        else:
+            bale.Available_For_Sale = True
+        bale.save()
     return JsonResponse({"msg": "success"},safe=False)
 
 @login_required(login_url="/login/")
