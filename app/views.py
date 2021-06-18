@@ -348,7 +348,7 @@ def searchbalesdata(request):
     for i in bales:
 
         
-        for_sale_count = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).filter(Available_For_Sale=True).count()
+        for_sale_count = Bale.objects.filter(Station=i.Station).filter(Available_For_Sale=True).count()
 
         max_staple = Bale.objects.filter(Station=i.Station).filter(variety=i.variety).aggregate(Max('Staple_length'))[
             'Staple_length__max']
