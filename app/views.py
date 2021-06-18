@@ -500,6 +500,7 @@ def seeks_bids_to_supply(request):
 def live_auction(request):
     return render(request,'live_auction.html')
 
+@login_required(login_url="/login/")
 @csrf_exempt
 def all_bales(request,lotID):
     print("🚀 ~ file: views.py ~ line 434 ~ lotID", lotID)
