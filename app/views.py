@@ -312,11 +312,14 @@ def searchbales(request):
             # ] 
             max_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Rd'))['Rd__max']
             print("🚀 ~ file: views.py ~ line 204 ~ max_rd", max_rd)
+            max_gtex = Bale.objects.filter(Station=i.Station).aggregate(Max('GTex'))['GTex__max']
+            min_gtex = Bale.objects.filter(Station=i.Station).aggregate(Min('GTex'))['GTex__min']
             min_rd = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min']
             print("🚀 ~ file: views.py ~ line 207 ~ min_Rd", Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Rd'))['Rd__min'])
             new_data[j]['Staple_length'] = max_staple+ "-" + min_staple
             new_data[j]['Micronaire'] = max_micronaire +"-"+min_micronaire
             new_data[j]['Rd'] = max_rd + "-" + min_rd
+            new_data[j]['Gtex'] =  min_gtex +"-"+ max_gtex
             # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
             print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
         # return render(request,"searchbales.html",new_data)
@@ -345,16 +348,6 @@ def searchbalesdata(request):
     new_data = []
     unique_station = {}
     for j,i in enumerate(bales):
-        # new_data.append({
-        #     'Station':i.Station,
-        #     'Bale_ID':i.Bale_ID,
-        #     'Available_For_Sale':i.Available_For_Sale,
-        #     'BCI':i.BCI,
-        #     'Organic':i.Organic,
-        #     'Rd':i.Rd,
-        #     'Staple_length':"",
-        #     'Micronaire':"",
-        # })
         
         total_bales = Bale.objects.filter(Q(Station__exact=i.Station)).count()
         max_staple = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Staple_length'))['Staple_length__max']
@@ -392,7 +385,7 @@ def searchbalesdata(request):
                     'Staple_length':Staple_length,
                     'Micronaire':Micronaire,
                     'Rd':Rd,
-                    'Gtex':Gtex,
+                    'GTex':Gtex,
                     'Available_For_Sale':total_sale,
                     'BCI':total_bci,
                     'Organic': total_org,
