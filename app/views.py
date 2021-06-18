@@ -1,6 +1,7 @@
 
 from re import M
 import re
+from django.core import serializers
 from django.http.response import JsonResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, context
@@ -369,11 +370,15 @@ def searchbalesdata(request):
         max_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Max('Micronaire'))['Micronaire__max']
         
         min_micronaire = Bale.objects.filter(Q(Station__exact=i.Station)).aggregate(Min('Micronaire'))['Micronaire__min']
-        
-        
+        total_org = Bale.objects.filter(Q(Station__exact=i.Station)).filter(Organic=True).count()
+        total_bci = Bale.objects.filter(Q(Station__exact=i.Station)).filter(BCI=True).count()
+        total_sale = Bale.objects.filter(Q(Station__exact=i.Station)).filter(Available_For_Sale=True).count()
+        max_gtex = Bale.objects.filter(Station=i.Station).aggregate(Max('GTex'))['GTex__max']
+        min_gtex = Bale.objects.filter(Station=i.Station).aggregate(Min('GTex'))['GTex__min']
         Staple_length = min_staple+ "-" +  max_staple
         Micronaire =  min_micronaire +"-"+ max_micronaire
         Rd =min_rd + "-" +  max_rd 
+        Gtex =  min_gtex +"-"+ max_gtex
         if i.Lot_ID in unique_station:
             continue
         else:
@@ -387,9 +392,10 @@ def searchbalesdata(request):
                     'Staple_length':Staple_length,
                     'Micronaire':Micronaire,
                     'Rd':Rd,
-                    'Available_For_Sale':i.Available_For_Sale,
-                    'BCI':i.BCI,
-                    'Organic':i.Organic,
+                    'Gtex':Gtex,
+                    'Available_For_Sale':total_sale,
+                    'BCI':total_bci,
+                    'Organic': total_org,
             })
     # new_data.append({'max_staple':max_staple+ "-" + min_staple,'max_micronaire':max_micronaire +"-"+min_micronaire})
     print("🚀 ~ file: views.py ~ line 203 ~ new_data", new_data)
@@ -441,3 +447,19 @@ def all_bales(request,lotID):
     # )
     data1 = BalesSerializer(data,many=True)
     return JsonResponse(data1.data,safe=False)
+
+
+
+@login_required(login_url="/login/")
+@csrf_exempt
+def searchform(request):
+    if request.method == 'POST':
+        data = request.POST
+        bales = Bale.objects.filter(Q(Station=data.get("Station","")) | Q(Lot_ID=data.get("Lot_ID","")) | Q(variety=data.get("variety","")) | Q(Bale_ID=data.get("Bale_ID",""))
+                                    # | Q(Micronaire=data["Micronaire"]) | Q(Rd=data["Rd"]) | Q(GTex=data["GTex"]) | Q(Spot_Price=data["Spot_Price"])
+                                    # | Q(weightinkg__exact=data["weightinkg"]) | Q(Available_For_Sale=data.get("Available_For_Sale",None)) | Q(Organic=data.get("Organic",None))
+                                    # | Q(BCI__icontains=data.get("BCI",None)) | Q(Moisture=data["Trash"]) | Q(Pick=data["Pick"]) | Q(Crop_Year=data['Crop_Year'])
+                                    )
+        ser_data = BalesSerializer(bales,many=True)
+        return render(request,'searchform.html',{"data":ser_data.data})
+    return render(request,'searchform.html')

@@ -22,5 +22,6 @@ urlpatterns = [
     path('available_for_sale',views.available_for_sale,name='available_for_sale'),
     path('seeks_bids_to_supply',views.seeks_bids_to_supply,name='seeks_bids_to_supply'),
     path('live_auction',views.live_auction,name='live_auction'),
+    path('searchform',views.searchform,name='searchform'),
     
 ]
