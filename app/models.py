@@ -8,19 +8,6 @@ from django.contrib.auth.models import User
 from django.db.models.base import Model
 
 # Create your models here.
-class TestBale(models.Model):
-    Bale_ID = models.CharField(max_length=255,null=False,blank=False)
-    Staple_length = models.CharField(max_length=255,null=False,blank=False)
-    Trash = models.CharField(max_length=255,null=False,blank=False)
-    Bundle_Strength = models.CharField(max_length=255,null=False,blank=False)
-    Micronaire = models.CharField(max_length=255,null=False,blank=False)
-    Rd = models.CharField(max_length=255,null=False,blank=False)
-    b = models.CharField(max_length=255,null=False,blank=False)
-    test_by_fc = models.CharField(max_length=255,null=False,blank=False)
-    test_report = models.CharField(max_length=255,null=False,blank=False)
-
-    def __str__(self):
-        return self.Bale_ID
 
 
 class Bale(models.Model):
@@ -58,6 +45,17 @@ class Bale(models.Model):
     def __str__(self):
         return str(self.Bale_ID) + str(self.Lot_ID) + str(self.variety) + str(self.Station)
 
+class TestBale(models.Model):
+    Bale_ID = models.ForeignKey(Bale,on_delete=models.CASCADE,null=True,blank=True)
+    Staple_length = models.CharField(max_length=255,null=False,blank=False)
+    Trash = models.CharField(max_length=255,null=False,blank=False)
+    Bundle_Strength = models.CharField(max_length=255,null=False,blank=False)
+    Micronaire = models.CharField(max_length=255,null=False,blank=False)
+    Rd = models.CharField(max_length=255,null=False,blank=False)
+    b = models.CharField(max_length=255,null=False,blank=False)
+    test_by_fc = models.CharField(max_length=255,null=False,blank=False)
+    test_report = models.CharField(max_length=255,null=False,blank=False)
+    user = models.ForeignKey(User,on_delete=models.CASCADE,null=True,blank=True)
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
