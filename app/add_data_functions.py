@@ -70,19 +70,31 @@ def add_test_data_function(request):
     data = TestBale.objects.all()
     if request.method == "POST":
         csv_file = request.FILES['formFile']
-        common_header = ['\ufeffBale ID','Staple length','Trash','Bundle Strength','Micronaire','Rd','b','test by fc','test_report\r\n']
-        if not csv_file.name.endswith('.csv'):
-            messages.error(request, 'THIS IS NOT A CSV FILE')
-        for index, row in enumerate(csv_file):
-            data = row.decode('utf-8')
-            if data:
-                line = data.split('","')
-                print("🚀 ~ file: views.py ~ line 80 ~ line", line)
+        common_header = ['\ufeffBale ID', 'Staple length', 'Trash', 'Bundle Strength', 'Micronaire', 'Rd', 'b', 'test by fc', 'test_report']
+        reader = csv.reader(codecs.iterdecode(csv_file, 'utf-8'))
+        for index,column in enumerate(reader):
             if index == 0:
-                if (line != common_header):
+                if common_header != column:
                     messages.error(request, 'THIS IS NOT SAME HEADER CSV FILE')
-                    print("XXXXX")
-                    print(line)
-                    print(common_header)
+                    break
                 else:
-                    messages.success(request, 'Records Correct, not imported yet!')
+                    messages.success(request, 'THIS IS SAME HEADER CSV FILE')
+            if index != 0:
+                test_by_fc_data = column[7]
+                if test_by_fc_data == "TRUE":
+                    sale = True
+                else:
+                    sale = False
+                created = TestBale(
+                    Bale_ID=Bale.objects.get(id=column[0]),
+                    Staple_length=column[1],
+                    Trash = column[2],
+                    Bundle_Strength= column[3],
+                    Micronaire=column[4],
+                    Rd= column[5],
+                    b=column[6],
+                    test_by_fc =sale,
+                    test_report = column[8],
+                    user = User.objects.get(id=request.user.id)
+                )
+                created.save()
