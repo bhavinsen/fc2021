@@ -13,9 +13,9 @@ urlpatterns = [
     # re_path(r'^.*\.*', views.pages, name='pages'),
     path('settings/',views.settings,name='settings'),
     path('addtestdata/',views.addtestdata,name='addtestdata'),
+    path('addbales/',views.addbales,name='addbales'),
     path('viewmybales/',views.viewmybales,name='viewmybales'),
     path('viewinventory/<int:lotID>',views.all_bales,name='all_bales'),
-    path('addbales/',views.addbales,name='addbales'),
     path('viewinventory/',views.searchbales,name='searchbales'),
     path('all_bales/<str:lotID>/',views.all_bales,name='all_bales'),
     path('searchbalesdata/',views.searchbalesdata,name='searchbalesdata'),
@@ -24,5 +24,7 @@ urlpatterns = [
     path('seeks_bids_to_supply/',views.seeks_bids_to_supply,name='seeks_bids_to_supply'),
     path('live_auction/',views.live_auction,name='live_auction'),
     path('searchform/',views.searchform,name='searchform'),
-    
+    path('viewlots/<str:station_txt>/<str:variety_txt>/', views.viewlots, name="viewlots"),
+    path('viewlots/<str:station_txt>/', views.viewlotsfromstation, name="viewlotsfromstation")
+
 ]

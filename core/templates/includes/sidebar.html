@@ -35,24 +35,35 @@
             <span class="sidebar-text">Dashboard</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a href="{% url 'addbales' %}" class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-plus"></span></span>
-            <span class="sidebar-text">Add Bales</span>
-          </a>
+                <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
+          <span
+            class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+            data-bs-toggle="collapse" data-bs-target="#submenu-app">
+            <span>
+              <span class="sidebar-icon"><span class="fas fa-shopping-cart"></span></span>
+              <span class="sidebar-text">Add Data</span>
+            </span>
+            <span class="link-arrow"><span class="fas fa-chevron-right"></span></span>
+          </span>
+          <div class="multi-level collapse "
+            role="list" id="submenu-app" aria-expanded="false">
+            <ul class="flex-column nav">
+              <li class="nav-item ">
+                <a class="nav-link" href="{% url 'addbales' %}">
+                  <span class="sidebar-text">Add Bales</span>
+                </a>
+              </li>
+              <li class="nav-item ">
+                <a class="nav-link" href="{% url 'addtestdata' %}">
+                  <span class="sidebar-text">Add Test Data</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
-        <li class="nav-item">
-          <a href="{% url 'addtestdata' %}" class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-copyright"></span></span>
-            <span class="sidebar-text">Add Test Data</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'searchbales' %}" class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-warehouse"></span></span>
-            <span class="sidebar-text">View Inventory</span>
-          </a>
-        </li>
+
+
+
         <li class="nav-item">
           <a href="{% url 'searchform' %}" class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-search"></span></span>
@@ -65,12 +76,7 @@
             <span class="sidebar-text">View My Bales</span>
           </a>
         </li>
-        <!-- <li class="nav-item ">
-          <a href="{% url 'auction_my_bales' %}" class="nav-link">
-            <span class="sidebar-icon"><span class="fas fa-shopping-cart"></span></span>
-            <span class="sidebar-text">Bidding</span>
-          </a>
-        </li> -->
+
         <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
           <span
             class="nav-link  collapsed  d-flex justify-content-between align-items-center"

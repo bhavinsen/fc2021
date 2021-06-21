@@ -14,7 +14,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="h5">No. of users</h2>
-                        <h3 class="h2 mb-1">{{users}}</h3>
+                        <h3 class="h2 mb-1">{{context.users}}</h3>
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="h5">No. of bales in system</h2>
-                        <h3 class="h2 mb-1">{{bales}}</h3>
+                        <h3 class="h2 mb-1">{{context.bales}}</h3>
                     </div>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="h5">No. of lots in system</h2>
-                        <h3 class="h2 mb-1">{{lots}}</h3>
+                        <h3 class="h2 mb-1">{{context.lots}}</h3>
                     </div>
                 </div>
             </div>  
@@ -40,7 +40,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="h5">No. of stations</h2>
-                        <h3 class="h2 mb-1">{{Station}}</h3>
+                        <h3 class="h2 mb-1">{{context.Station}}</h3>
                     </div>
                 </div>
             </div>
@@ -48,13 +48,68 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h2 class="h5">Test results uploaded</h2>
-                        <h3 class="h2 mb-1">{{test}}</h3>
+                        <h3 class="h2 mb-1">{{context.test}}</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+<div class="container-fluid" id="newmodel">
+    <div class="table-responsive py-4">
+        <h2>Inventory</h2>
+        <table class="table table-centered table-nowrap mb-0 rounded" id="datatable">
+            <thead class="thead-light">
+                <tr>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Variety</th>
+                    <th class="border-0">Total no Bales</th>
+                    <th class="border-0">Bales For Sale</th>
+                    <th class="border-0">Price</th>
+                    <th class="border-0">Staple Range</th>
+                    <th class="border-0">Micronaire</th>
+                    <th class="border-0">Rd</th>
+                    <th class="border-0">Gtex</th>
+                    <th class="border-0">Organic</th>
+                    <th class="border-0">BCI</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                {% for i in list_data %}
+                <tr>
+                <td> <a href="{% url 'viewlots' station_txt=i.station variety_txt=i.variety %}">{{i.station}}</a></td>
+                <td>{{i.variety}}</td>
+                <td>{{i.total_bales}}</td>
+                <td>{{i.for_sale}}</td>
+                <td>{{i.price_range}}</td>
+                <td>{{i.staple_range}}</td>
+                <td>{{i.mic_range}}</td>
+                <td>{{i.rd_range}}</td>
+                <td>{{i.gtex_range}}</td>
+                <td>{{i.organic_count}}</td>
+                <td>{{i.bci_count}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>{{i.Station}}</td>
+                    <td>{{i.variety}}</td>
+                    <td>{{i.Bale_ID}}</td>
+                    <td>{{i.Staple_Range}}</td>
+                    <td>{{i.Bales_For_Sale}}</td>
+                    <td>{{i.Micronaire}}</td>
+                    <td>{{i.Rd}}</td>
+                    <td>{{i.Gtex}}</td>
+                    <td>{{i.Organic}}</td>
+                    <td>{{i.BCI}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
 {% endblock content %}
+
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}

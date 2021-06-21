@@ -21,11 +21,10 @@
 </div> -->
 <div class="container-fluid" id="newmodel">
     <div class="table-responsive py-4">
-        <h2>List all Lot ID</h2>
+        <h2>Inventory</h2>
         <table class="table table-centered table-nowrap mb-0 rounded" id="datatable">
             <thead class="thead-light">
                 <tr>
-                    <th class="border-0">Lot ID</th>
                     <th class="border-0">Station</th>
                     <th class="border-0">Variety</th>
                     <th class="border-0">Total no Bales</th>
@@ -42,19 +41,18 @@
             <tbody id="tbody">
                 {% for i in list_data %}
                 <tr>
-                    <td ><a href="{{i.Lot_ID}}" target="blank">{{i.Lot_ID}}</a></td>
-                    <td>{{i.station}}</td>
-                    <td>{{i.variety}}</td>
-                    <td>{{i.total_bales}}</td>
-                    <td>{{i.for_sale}}</td>
-                    <td>{{i.price_range}}</td>
-                    <td>{{i.staple_range}}</td>
-                    <td>{{i.mic_range}}</td>
-                    <td>{{i.rd_range}}</td>
-                    <td>{{i.gtex_range}}</td>
-                    <td>{{i.organic_count}}</td>
-                    <td>{{i.bci_count}}</td>
-                </tr>
+                <td> <a href="{% url 'viewlots' station_txt=i.station variety_txt=i.variety %}">{{i.station}}</a></td>
+                <td>{{i.variety}}</td>
+                <td>{{i.total_bales}}</td>
+                <td>{{i.for_sale}}</td>
+                <td>{{i.price_range}}</td>
+                <td>{{i.staple_range}}</td>
+                <td>{{i.mic_range}}</td>
+                <td>{{i.rd_range}}</td>
+                <td>{{i.gtex_range}}</td>
+                <td>{{i.organic_count}}</td>
+                <td>{{i.bci_count}}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
             <tfoot>

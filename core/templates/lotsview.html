@@ -1,0 +1,118 @@
+{% extends "layouts/base.html" %}
+{% load static %}
+{% block title %} View Lots In Station By Variety - Dashboard {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<style>
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div id="searchbydata" class="row">
+<!-- <div> 
+    <button id="cleardiv" class="btn btn-danger" type="button">Clear Search</button>
+</div> -->
+<div class="container-fluid" id="newmodel">
+    <div class="table-responsive py-4">
+        <h2>View Lots In Specific Station</h2>
+        <table class="table table-centered table-nowrap mb-0 rounded" id="datatable">
+            <thead class="thead-light">
+                <tr>
+                    <th class="border-0">Lot ID</th>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Variety</th>
+                    <th class="border-0">Total no Bales</th>
+                    <th class="border-0">Bales For Sale</th>
+                    <th class="border-0">Price</th>
+                    <th class="border-0">Staple Range</th>
+                    <th class="border-0">Micronaire</th>
+                    <th class="border-0">Rd</th>
+                    <th class="border-0">Gtex</th>
+                    <th class="border-0">Organic</th>
+                    <th class="border-0">BCI</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                {% for i in list_data %}
+                <tr>
+                    <td>{{i.Lot_ID}}</td>
+                    <td>{{i.station}}</td>
+                    <td>{{i.variety}}</td>
+                    <td>{{i.total_bales}}</td>
+                    <td>{{i.for_sale}}</td>
+                    <td>{{i.price_range}}</td>
+                    <td>{{i.staple_range}}</td>
+                    <td>{{i.mic_range}}</td>
+                    <td>{{i.rd_range}}</td>
+                    <td>{{i.gtex_range}}</td>
+                    <td>{{i.organic_count}}</td>
+                    <td>{{i.bci_count}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>{{i.Station}}</td>
+                    <td>{{i.variety}}</td>
+                    <td>{{i.Bale_ID}}</td>
+                    <td>{{i.Staple_Range}}</td>
+                    <td>{{i.Bales_For_Sale}}</td>
+                    <td>{{i.Micronaire}}</td>
+                    <td>{{i.Rd}}</td>
+                    <td>{{i.Gtex}}</td>
+                    <td>{{i.Organic}}</td>
+                    <td>{{i.BCI}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="container-fluid" id="lotid">
+    <div class="table-responsive py-4">
+        <h2>List all bales</h2>
+        <table class="table table-centered table-nowrap mb-0 rounded" id="lotidtable">
+            <thead class="thead-light">
+                <tr>
+                    <th class="border-0">Lot ID</th>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Variety</th>
+                    <th class="border-0">Bale ID</th>
+                    <th class="border-0">Available For Sale</th>
+                    <th class="border-0">Staple Range</th>
+                    <th class="border-0">Micronaire</th>
+                    <th class="border-0">Rd</th>
+                    <th class="border-0">Gtex</th>
+                    <th class="border-0">Organic</th>
+                    <th class="border-0">BCI</th>
+                </tr>
+            </thead>
+            <tbody id="lotidbody">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>{{i.Station}}</td>
+                    <td>{{i.variety}}</td>
+                    <td>{{i.Bale_ID}}</td>
+                    <td>{{i.Staple_Range}}</td>
+                    <td>{{i.Bales_For_Sale}}</td>
+                    <td>{{i.Micronaire}}</td>
+                    <td>{{i.Rd}}</td>
+                    <td>{{i.GTex}}</td>
+                    <td>{{i.Organic}}</td>
+                    <td>{{i.BCI}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

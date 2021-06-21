@@ -15,48 +15,44 @@
 
 {% block content %}
 <div class="container-fluid mt-5">
-    <h2><b>View My Bales Data </b></h2>
-    
 </div>
-
 {% if request.user.is_superuser %}
-<div class="container mt-5" style="width:600px">
+<div class="container mt-5" style="width:400px">
+        <h4><b>Bales In My Inventory</b></h4><br>
+
     <p id="tb-filter" style="display:none">
-        <label for="state" style="margin-left: 63%;"> Users :</label> 
-        <select id="state" class="form-select" name="states[]" aria-label="select example" style="width:300px;margin-left: 80%;margin-top: -40px;">
-            <option value="">All</option>
+        <select id="state" class="form-select" name="states[]" aria-label="select example" style="width:300px;margin-left: 80%;margin-top: -10px;">
+            <option value="">All Vendors</option>
             {% for i in users %}
             <option value={{i.username}}>{{i.username}}</option>
             {% endfor %}
         </select>
     </p>
 </div>
-<div class="container-fluid mt-5" style="width:100%">
+<div class="container-fluid mt-5" style="width:90%">
     <div class="table-responsive py-4">
-        <h3>Groups by <mark>Lot ID</mark></h3>
         <table class="table table-centered table-nowrap mb-0 rounded" id="secondtable">
             <thead class="thead-light">
                 <tr>
-                    <th class="border-0">Station</th>
                     <th class="border-0">Lot ID</th>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Variety</th>
                     <th class="border-0">No of Bales</th>
-                    <th class="border-0">Available For Sale</th>
                     <th class="border-0">Organic</th>
                     <th class="border-0">BCI</th>
-                    
-
+                    <th class="border-0">Available For Sale</th>
                 </tr>
             </thead>
             <tbody id="mybalestbody">
                 {% for i in bales %}
                 <tr>
-                    <td class="border-0">{{i.Station}}</td>
                     <td class="border-0">{{i.Lot_ID}}</td>
-                    <td class="border-0">{{i.Bale_ID}}</td>
-                    <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
+                    <td class="border-0">{{i.Station}}</td>
+                    <td class="border-0">{{i.variety}}</td>
+                    <td class="border-0">{{i.bales_count}}</td>
                     <td class="border-0">{{i.Organic}}</td>
                     <td class="border-0">{{i.BCI}}</td>
-                    
+                    <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
                 </tr>
                 {% empty %}
                 <tr>
@@ -87,24 +83,25 @@
         <table class="table table-flush" id="newtable" class="display">
             <thead class="thead-light">
                 <tr>
-                    <th class="border-0">Station</th>
                     <th class="border-0">Lot ID</th>
+                    <th class="border-0">Station</th>
+                    <th class="border-0">Variety</th>
                     <th class="border-0">No of Bales</th>
-                    <th class="border-0">Available For Sale</th>
                     <th class="border-0">Organic</th>
                     <th class="border-0">BCI</th>
+                    <th class="border-0">Available For Sale</th>
                 </tr>
             </thead>
             <tbody>
                 {% for i in rbales %}
                 <tr>
+        <td class="border-0">{{i.Lot_ID}}</td>
                     <td class="border-0">{{i.Station}}</td>
-                    <td class="border-0">{{i.Lot_ID}}</td>
-                    <td class="border-0">{{i.Bale_ID}}</td>
-                    <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
+                    <td class="border-0">{{i.variety}}</td>
+                    <td class="border-0">{{i.bales_count}}</td>
                     <td class="border-0">{{i.Organic}}</td>
                     <td class="border-0">{{i.BCI}}</td>
-
+                    <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a" value={{i.Available_For_Sale}} ></td>
                 </tr>
                 {% empty %}
                 <tr>
