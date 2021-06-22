@@ -44,27 +44,27 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0">Auction</th>
-                        <th class="border-0">Station</th>
                         <th class="border-0">Lot ID</th>
-                        <th class="border-0">Bale ID</th>
+                        <th class="border-0">Station</th>
+                        <th class="border-0">Variety</th>
+                        <th class="border-0">No of Bales</th>
                         <th class="border-0">Available For Sale</th>
                         <th class="border-0">Organic</th>
                         <th class="border-0">BCI</th>
-                        <th class="border-0">User</th>
     
                     </tr>
                 </thead>
                 <tbody id="mybalestbody">
                     {% for i in bales %}
                     <tr>
-                        <td class="border-0"><input id="auccheckbox" class="b" value={{i.id}} type="checkbox"></td>
-                        <td class="border-0">{{i.Station}}</td>
+                        <td class="border-0"><input id="auccheckbox" class="b form-check-input" value="{{i.id}}" type="checkbox"></td>
                         <td class="border-0">{{i.Lot_ID}}</td>
-                        <td class="border-0">{{i.Bale_ID}}</td>
-                        <td class="border-0"><input type="checkbox" id="sale_{{i.id}}" class="a" value={{i.Available_For_Sale}} ></td>
+                        <td class="border-0">{{i.Station}}</td>
+                        <td class="border-0">{{i.variety}}</td>
+                        <td class="border-0">{{i.bales_count}}</td>
+                        <td class="border-0"><input type="checkbox" id="{{i.Lot_ID}}" class="a form-check-input" value={{i.Available_For_Sale}} ></td>
                         <td class="border-0">{{i.Organic}}</td>
                         <td class="border-0">{{i.BCI}}</td>
-                        <td class="border-0">{{i.user}}</td>
                     </tr>
                     {% empty %}
                     <tr>
@@ -96,23 +96,23 @@
                 <thead class="thead-light">
                     <tr>
                         <th class="border-0">Auction</th>
-                        <th class="border-0">Station</th>
                         <th class="border-0">Lot ID</th>
-                        <th class="border-0">Bale ID</th>
+                        <th class="border-0">Station</th>
+                        <th class="border-0">Variety</th>
+                        <th class="border-0">No of Bales</th>
                         <th class="border-0">Available For Sale</th>
                         <th class="border-0">Organic</th>
                         <th class="border-0">BCI</th>
-                        
-    
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in rbales %}
                     <tr>
-                        <td class="border-0"><input id="auccheckbox" class="b" value={{i.id}} type="checkbox"></td>
-                        <td class="border-0">{{i.Station}}</td>
+                        <td class="border-0"><input id="auccheckbox" class="b" value="{{i.id}}" type="checkbox"></td>
                         <td class="border-0">{{i.Lot_ID}}</td>
-                        <td class="border-0">{{i.Bale_ID}}</td>
+                        <td class="border-0">{{i.Station}}</td>
+                        <td class="border-0">{{i.variety}}</td>
+                        <td class="border-0">{{i.bales_count}}</td>
                         <td class="border-0"><input type="checkbox" id="sale_{{i.id}}" class="a" value={{i.Available_For_Sale}} ></td>
                         <td class="border-0">{{i.Organic}}</td>
                         <td class="border-0">{{i.BCI}}</td>

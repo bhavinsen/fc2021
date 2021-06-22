@@ -32,6 +32,7 @@ from django.db.models import Avg, Max, Min, Sum
 from .serializers import BalesSerializer
 
 from . import lots_views_functions
+from . import view_my_bales
 
 @login_required(login_url="/login/")
 def pages(request):
@@ -90,36 +91,7 @@ def viewmybales(request):
     users = User.objects.all()
     data = TestBale.objects.all()
     query = request.user
-    if request.user.is_superuser:
-        bales = Bale.objects.all()
-    else:
-       bales = Bale.objects.filter(Q(user__exact=query))
-
-    new_data = []
-    unique_station = []
-    for j,i in enumerate(bales):
-        bales_count = Bale.objects.filter(Lot_ID=i.Lot_ID).filter().count()
-        if i.Lot_ID in unique_station:
-            continue
-        else:
-            unique_station.append(i.Lot_ID)
-            new_data.append({
-                'Station': i.Station,
-                'variety': i.variety,
-                'bales_count': bales_count,
-                'Lot_ID':i.Lot_ID,
-                'Micronaire': i.Micronaire,
-                'Staple_length': i.Staple_length,
-                'Rd':i.Rd,
-                'Available_For_Sale':i.Available_For_Sale,
-                'Spot_Price': i.Spot_Price,
-                'weightinkg': i.weightinkg,
-                'Organic': i.Organic,
-                'BCI': i.BCI,
-                'GTex': i.GTex,
-                'user': i.user
-            })
-
+    new_data = view_my_bales.view_my_bales_data(request)
     return render(request,'viewmybales.html',{'data':data,'users':users,'bales':new_data,'rbales':new_data})
 
 @login_required(login_url="/login/")
@@ -265,9 +237,8 @@ def auction_my_bales(request):
     User = get_user_model()
     users = User.objects.all()
     query = request.user
-    rbales = Bale.objects.filter(Q(user__exact=query))
-    bales = Bale.objects.all()
-    return render(request,'auction_my_bales.html',{'users':users,'bales':bales,'rbales':rbales})
+    new_data = view_my_bales.view_my_bales_data(request)
+    return render(request,'auction_my_bales.html',{'users':users,'bales':new_data,'rbales':new_data})
 
 @login_required(login_url="/login/")
 @csrf_exempt
